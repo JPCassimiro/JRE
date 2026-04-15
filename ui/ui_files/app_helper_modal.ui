@@ -94,7 +94,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="githubLinkLabel">
            <property name="text">
-            <string>&lt;a href=&quot;https://github.com/JPCassimiro/JHMR&quot;&gt;Repositório no Github&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;https://github.com/JPCassimiro/JRE&quot;&gt;Repositório no Github&lt;/a&gt;</string>
            </property>
            <property name="openExternalLinks">
             <bool>true</bool>

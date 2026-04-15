@@ -89,7 +89,7 @@
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string comment="ConfigScreenHelper">Quando ligado, a entrada configurada será repetida múltiplas vezes enquanto o sensor estiver pressionado</string>
+                  <string comment="ConfigScreenHelper">Quando ligado, a entrada configurada será repetida múltiplas vezes enquanto o sensor estiver ativado</string>
                  </property>
                  <property name="whatsThis">
                   <string/>
@@ -281,7 +281,7 @@
             <item>
              <widget class="QPushButton" name="exhaleSelectButton">
               <property name="toolTip">
-               <string comment="ConfigScreenHelper">Seleciona a tecla que deseja associar à combinação de dedos, caso já selecionada, apresenta a tecla escolhida</string>
+               <string comment="ConfigScreenHelper">Seleciona a tecla que deseja associar a entrada, caso já selecionada, apresenta a tecla escolhida</string>
               </property>
               <property name="text">
                <string>Clique para selecionar</string>
@@ -303,7 +303,7 @@
             <item>
              <widget class="QPushButton" name="inhaleSelectButton">
               <property name="toolTip">
-               <string comment="ConfigScreenHelper">Seleciona a tecla que deseja associar à combinação de dedos, caso já selecionada, apresenta a tecla escolhida</string>
+               <string comment="ConfigScreenHelper">Seleciona a tecla que deseja associar a entrada, caso já selecionada, apresenta a tecla escolhida</string>
               </property>
               <property name="text">
                <string>Clique para selecionar</string>

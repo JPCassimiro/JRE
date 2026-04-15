@@ -141,11 +141,11 @@ class UserStatsModel(QWidget):
             QCoreApplication.translate("GraphText","Sopro"),
             QCoreApplication.translate("GraphText","Sucção"),
             QCoreApplication.translate("GraphText","Estatisticas de pressão"),
-            QCoreApplication.translate("GraphText","Média de pressão por função respiratória"),
+            QCoreApplication.translate("GraphText","Progresso de pressão por função respiratória"),
             QCoreApplication.translate("GraphText","Média"),
             QCoreApplication.translate("GraphText","Maxima"),
             QCoreApplication.translate("GraphText","Mínima"),
-            QCoreApplication.translate("GraphText","Uso por função respiratória"),
+            QCoreApplication.translate("GraphText","Média por função respiratória"),
             QCoreApplication.translate("GraphText","Uso de função respiratória"),
             QCoreApplication.translate("GraphText","Sessão"),
             QCoreApplication.translate("GraphText","Paciente: {user}"),
@@ -253,7 +253,7 @@ class UserStatsModel(QWidget):
         self.avg_chart_summary = pg.BarGraphItem(x= x_range,height=self.avg_pressure_summary,width = 0.2,brush="#F89E59")
         self.plot_item_avg_bar.addItem(self.avg_chart_summary)
         self.plot_item_avg_bar.getAxis('bottom').setTicks([self.action_name_labels])
-        self.plot_item_avg_bar.getAxis('left').setLabel(text=self.string_list_graphs[6], units = "kPa")
+        self.plot_item_avg_bar.getAxis('left').setLabel(text=self.string_list_graphs[7], units = "kPa")
         self.plot_item_avg_bar.setMouseEnabled(x=False, y=False)
         
         #total times used chart

@@ -306,21 +306,29 @@ class GameProfileModel(QWidget):
     def standardize_serial_message(self,binding_dict):
         messages = []
 
+        logger.debug(f"standardize_serial_message binding_dict: {binding_dict}")
+
         value = binding_dict["pressure"]
+        valueStr = None
         if int(value) != 0:
             valueStr = int(value)
             if(int(value) < 10):#value always needs to be sent in a 3 digit format 
                 valueStr = f"00{int(value)}"
             elif(int(value) < 100):
                 valueStr = f"0{int(value)}"
-                messages.append("*M{}{}".format(binding_dict["action"], valueStr))
+
+        messages.append("*M{}{}".format(binding_dict["action"], valueStr))
         
         if binding_dict["repeat"] == "True":
             messages.append("*R1")
         else:
             messages.append("*R0")
         
-        messages.append("*K" + binding_dict["key"])
+        if binding_dict["action"] == "1":
+            messages.append("*B" + binding_dict["key"])
+        else:
+            messages.append("*U" + binding_dict["key"])
+        
         messages.append("*T" + binding_dict["duration"])
         
         return messages

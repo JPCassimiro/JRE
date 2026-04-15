@@ -205,9 +205,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Inhale</translation>
     </message>
     <message>
-        <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="144"/>
         <source>Média de pressão por função respiratória</source>
-        <translation>Pressure mean by respiratory function</translation>
+        <translation type="vanished">Pressure mean by respiratory function</translation>
+    </message>
+    <message>
+        <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="144"/>
+        <source>Progresso de pressão por função respiratória</source>
+        <translation>Progress of average pressure by function</translation>
     </message>
     <message>
         <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="145"/>
@@ -226,8 +230,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="148"/>
+        <source>Média por função respiratória</source>
+        <translation>Average by respiratory function</translation>
+    </message>
+    <message>
         <source>Uso por função respiratória</source>
-        <translation>Use by respiratory function</translation>
+        <translation type="vanished">Use by respiratory function</translation>
     </message>
     <message>
         <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="149"/>
@@ -237,7 +245,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="152"/>
         <source>Total de uso por função respiratória</source>
-        <translation type="unfinished"></translation>
+        <translation>Total uses by respiratory function</translation>
     </message>
     <message>
         <source>Uso por dedo</source>
@@ -421,7 +429,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Error while selecting a profile</translation>
     </message>
     <message>
-        <location filename="../ui/model/stacked_widget_screens/game_config_profile_model.py" line="349"/>
+        <location filename="../ui/model/stacked_widget_screens/game_config_profile_model.py" line="357"/>
         <location filename="../ui/model/components/user_item_model.py" line="88"/>
         <location filename="../ui/model/stacked_widget_screens/user_actions_widget_model.py" line="137"/>
         <location filename="../ui/model/stacked_widget_screens/user_stats_model.py" line="119"/>
@@ -482,8 +490,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../ui/ui_files/app_helper_modal.ui" line="97"/>
+        <source>&lt;a href=&quot;https://github.com/JPCassimiro/JRE&quot;&gt;Repositório no Github&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;https://github.com/JPCassimiro/JRE&quot;&gt;Repositório no Github&lt;/a&gt;</translation>
+    </message>
+    <message>
         <source>&lt;a href=&quot;https://github.com/JPCassimiro/JHMR&quot;&gt;Repositório no Github&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;https://github.com/JPCassimiro/JHMR&quot;&gt;Github repository&lt;/a&gt;</translation>
+        <translation type="vanished">&lt;a href=&quot;https://github.com/JPCassimiro/JHMR&quot;&gt;Github repository&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -588,10 +600,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/ui_files/config_widget.ui" line="92"/>
         <source>Quando ligado, a entrada configurada será repetida múltiplas vezes enquanto o sensor estiver pressionado</source>
         <comment>ConfigScreenHelper</comment>
-        <translation>When on, will send multiple inputs for the configured key as long as the sensor is pressed</translation>
+        <translation type="vanished">When on, will send multiple inputs for the configured key as long as the sensor is pressed</translation>
     </message>
     <message>
         <location filename="../ui/ui_files/config_widget.ui" line="188"/>
@@ -605,11 +616,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Exhale key</translation>
     </message>
     <message>
-        <location filename="../ui/ui_files/config_widget.ui" line="284"/>
-        <location filename="../ui/ui_files/config_widget.ui" line="306"/>
         <source>Seleciona a tecla que deseja associar à combinação de dedos, caso já selecionada, apresenta a tecla escolhida</source>
         <comment>ConfigScreenHelper</comment>
-        <translation>Selects a key to be associated with the finger combination. Displays the key if already selected</translation>
+        <translation type="vanished">Selects a key to be associated with the finger combination. Displays the key if already selected</translation>
     </message>
     <message>
         <location filename="../ui/ui_files/config_widget.ui" line="299"/>
@@ -647,6 +656,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">When on, input is repeated multiple times while the sensor is pressed</translation>
     </message>
     <message>
+        <location filename="../ui/ui_files/config_widget.ui" line="92"/>
+        <source>Quando ligado, a entrada configurada será repetida múltiplas vezes enquanto o sensor estiver ativado</source>
+        <comment>ConfigScreenHelper</comment>
+        <translation>When on, the input is repeated multiple times while the sensor is active</translation>
+    </message>
+    <message>
         <location filename="../ui/ui_files/config_widget.ui" line="101"/>
         <location filename="../ui/ui_files/config_widget.ui" line="194"/>
         <source>?</source>
@@ -666,6 +681,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="../ui/ui_files/config_widget.ui" line="172"/>
         <source>Duração (s)</source>
         <translation>Duration (s)</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_files/config_widget.ui" line="284"/>
+        <location filename="../ui/ui_files/config_widget.ui" line="306"/>
+        <source>Seleciona a tecla que deseja associar a entrada, caso já selecionada, apresenta a tecla escolhida</source>
+        <comment>ConfigScreenHelper</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quantos segundos de pressão continua são necessarios para que o controle registre uma entrada</source>

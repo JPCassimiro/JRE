@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'app_helper_modal.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.1
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -81,6 +81,6 @@ class Ui_appHelpDialog(object):
         appHelpDialog.setWindowTitle(QCoreApplication.translate("appHelpDialog", u"Dialog", None))
         self.utfprLogoLabel.setText("")
         self.manualLinkLabel.setText(QCoreApplication.translate("appHelpDialog", u"<a href=\"file:///manual/manual.html\">Manual de usu\u00e1rio<a/>", None))
-        self.githubLinkLabel.setText(QCoreApplication.translate("appHelpDialog", u"<a href=\"https://github.com/JPCassimiro/JHMR\">Reposit\u00f3rio no Github</a>", None))
+        self.githubLinkLabel.setText(QCoreApplication.translate("appHelpDialog", u"<a href=\"https://github.com/JPCassimiro/JRE\">Reposit\u00f3rio no Github</a>", None))
     # retranslateUi
 
