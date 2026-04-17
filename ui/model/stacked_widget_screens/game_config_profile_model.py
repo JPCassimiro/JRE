@@ -29,7 +29,7 @@ class GameProfileModel(QWidget):
 
         #module setup
         self.end_modal = EndConfigModel()
-        self.jsonWriter = JsonWriterClass
+        self.jsonWriter = JsonWriterClass()
         
         #get ui elements
         self.gameProfileList = self.ui.gameProfileList
