@@ -92,6 +92,8 @@ class CalibrationWidgetModel(QWidget):
         self.restartButton.setEnabled(True)
         self.startButton.setEnabled(True)
         self.sideMenuDisableSignal.emit(True)
+        self.btSerialhandle.mesReceivedSignal.disconnect(self.recieve_serial_message)
+        self.btSerialhandle.port_error.disconnect(self.port_error_handle)
         
     #starts the timer
     #500ms timer for sending the messages
@@ -100,9 +102,14 @@ class CalibrationWidgetModel(QWidget):
         self.restartButton.setEnabled(False)
         # self.serialHandleClass.mesReceivedSignal.connect(self.recieve_serial_message)
         self.btSerialhandle.mesReceivedSignal.connect(self.recieve_serial_message)
+        self.btSerialhandle.port_error.connect(self.port_error_handle)
         self.cancelButton.setEnabled(True)
         self.timer.start(500)
         self.sideMenuDisableSignal.emit(False)
+
+    def port_error_handle(self):
+        self.logModel.append_log(f"Dispositivo não conectado")
+        self.cancel_button_handler()
         
     #messages are to be sent in *S1 to *S4 order
     def send_serial_message(self,message):
@@ -178,8 +185,10 @@ class CalibrationWidgetModel(QWidget):
                 self.update_instruction_ui()
                 self.timer.stop()
                 self.btSerialhandle.mesReceivedSignal.disconnect(self.recieve_serial_message)
+                self.btSerialhandle.port_error.disconnect(self.port_error_handle)
                 # self.serialHandleClass.mesReceivedSignal.disconnect(self.recieve_serial_message)
                 return
+            
         elif self.calibration_step == 1:
             if self.timeout_counter < 10:
                 self.send_serial_message(self.serial_messages[1])
@@ -190,6 +199,7 @@ class CalibrationWidgetModel(QWidget):
                 self.calibration_step = 0
                 self.timer.stop()
                 self.btSerialhandle.mesReceivedSignal.disconnect(self.recieve_serial_message)
+                self.btSerialhandle.port_error.disconnect(self.port_error_handle)
                 # self.serialHandleClass.mesReceivedSignal.disconnect(self.recieve_serial_message)
                 self.startButton.setEnabled(True)
                 self.restartButton.setEnabled(True)

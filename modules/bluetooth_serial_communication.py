@@ -34,12 +34,23 @@ class BtSerialComm(QObject):
         else:
             self.bt_socket.open()
 
+    def fake_stat_data(self):
+        self.use_data_buffer += "*I020100"
+        self.use_data_buffer += "*I100200"
+        self.use_data_buffer += "*I000120"
+        self.use_data_buffer += "*I020020"
+        self.recieve_use_data_message()
+    
  # if port not open
     def open_port(self):
-        if not self.bt_socket.isOpen():
-           if not self.bt_socket.open(QIODevice.ReadWrite):
-               logger.error(f"Erro ao abrir porta serial: {self.bt_socket.errorString()}")
-
+        try:
+            if not self.bt_socket.isOpen():
+                if not self.bt_socket.open(QIODevice.ReadWrite):
+                    logger.error(f"Erro ao abrir porta serial: {self.bt_socket.errorString()}")
+        except AttributeError as e:
+            logger.debug(f"recieve_use_data_message error: {e}")
+            self.port_error.emit()
+            
     #on sucessfull read stop reading for 1 sec, deals with multiple messages of same value
     def start_timer(self):
         self.timer.start(1000)
@@ -63,53 +74,65 @@ class BtSerialComm(QObject):
 
     #gets message from model class and writes it
     def send_message(self, message):
-        logger.debug(f"send_message message:{message}")
-        encodedMessage = message.encode('utf-8')
-        self.bt_socket.write(encodedMessage)
+        try:
+            logger.debug(f"send_message message:{message}")
+            encodedMessage = message.encode('utf-8')
+            self.bt_socket.write(encodedMessage)
+        except AttributeError as e:
+            logger.debug(f"recieve_use_data_message error: {e}")
+            self.port_error.emit()
 
     #gets message, decodes, sends signal
     def recieve_message(self):
-        message_substrings = []#mesages to be sent
-        data = self.bt_socket.readAll()#these messages can be recieved in any way at any time, so it can be split or concateneted
-        dataStr = data.toStdString()
-        self.message_buffer += dataStr
-        print(f"recive_message:{self.message_buffer}")
-        while "N" in self.message_buffer or "A" in self.message_buffer:
-            last_index = 0
-            for i, c in enumerate(self.message_buffer):#get the substring up to the limiter
-                if c == "A" or c == "N":
-                    message_substrings.append(self.message_buffer[:i+1])
-                    last_index = i
-                    break
-            self.message_buffer = self.message_buffer[last_index+1:]
-        for m in message_substrings:
-            self.mesReceivedSignal.emit(m)
-            logger.debug(f"Mensagem recebida: {m}")
+        try:
+            message_substrings = []#mesages to be sent
+            data = self.bt_socket.readAll()#these messages can be recieved in any way at any time, so it can be split or concateneted
+            dataStr = data.toStdString()
+            self.message_buffer += dataStr
+            print(f"recive_message:{self.message_buffer}")
+            while "N" in self.message_buffer or "A" in self.message_buffer:
+                last_index = 0
+                for i, c in enumerate(self.message_buffer):#get the substring up to the limiter
+                    if c == "A" or c == "N":
+                        message_substrings.append(self.message_buffer[:i+1])
+                        last_index = i
+                        break
+                self.message_buffer = self.message_buffer[last_index+1:]
+            for m in message_substrings:
+                self.mesReceivedSignal.emit(m)
+                logger.debug(f"Mensagem recebida: {m}")
+        except AttributeError as e:
+            logger.debug(f"recieve_use_data_message error: {e}")
+            self.port_error.emit()
 
 #receives sensor readings
     def recieve_use_data_message(self):
-        if self.pause_var != True:
-            messages = []
-            data = self.bt_socket.readAll()
-            dataStr = data.toStdString()
-            self.use_data_buffer += dataStr
-            matches = list(re.finditer(self.use_data_regex,self.use_data_buffer))
-            print(f"recieve_use_data_message self.use_data_buffer:{self.use_data_buffer}\ndataStr:{dataStr}\nmatches:{matches}")
-            if matches:
-                last_match = matches[-1]
-                start, end = last_match.span()
-                self.use_data_buffer = self.message_buffer[end+1:]
-                self.start_timer()
-            for m in matches:
-                messages.append(m.group())
-                logger.debug(f"Mensagem recebida: {m.group()}")
-            if messages:
-                self.mesReceivedSignal.emit(messages)
+        try:
+            if self.pause_var != True:
+                messages = []
+                data = self.bt_socket.readAll()
+                dataStr = data.toStdString()
+                self.use_data_buffer += dataStr
+                matches = list(re.finditer(self.use_data_regex,self.use_data_buffer))
+                print(f"recieve_use_data_message self.use_data_buffer:{self.use_data_buffer}\ndataStr:{dataStr}\nmatches:{matches}")
+                if matches:
+                    last_match = matches[-1]
+                    start, end = last_match.span()
+                    self.use_data_buffer = self.message_buffer[end+1:]
+                    self.start_timer()
+                for m in matches:
+                    messages.append(m.group())
+                    logger.debug(f"Mensagem recebida: {m.group()}")
+                if messages:
+                    self.mesReceivedSignal.emit(messages)
+        except AttributeError as e:
+            logger.debug(f"recieve_use_data_message error: {e}")
+            self.port_error.emit()
 
-    def create_service_socket(self, service = None):
+    def create_service_socket(self, addr = None, uuid = None):
         try:
             self.clear_socket()
-            logger.debug(f"create_service_socket service:{service}")
+            logger.debug(f"create_service_socket service:{addr,uuid}")
 
             self.bt_socket = QBluetoothSocket(QBluetoothServiceInfo.RfcommProtocol)
 
@@ -118,9 +141,9 @@ class BtSerialComm(QObject):
             self.bt_socket.connected.connect(self.socket_connect_handle)
             self.bt_socket.destroyed.connect(self.socket_deleted)
             
-            if service:
+            if addr and uuid:
                 logger.debug(f"create_service_socket service true")
-                self.bt_socket.connectToService(service.device().address(), service.serviceUuid())
+                self.bt_socket.connectToService(addr,uuid)
         except:
             self.port_error.emit()
 

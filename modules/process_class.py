@@ -17,7 +17,6 @@ class ProcessRunnerClass(QObject):
         self.p.errorOccurred.connect(self.process_error_handler)
         self.p.readyReadStandardError.connect(self.read_handler)
         
-        
         self.error_flag = False#flag for errors, gets reset on run
 
     def run(self,argStr = None):
@@ -43,7 +42,16 @@ class ProcessRunnerClass(QObject):
     #emits finish message
     def process_finish_handler(self):
         if self.error_flag == False:
-            self.processFinished.emit({"message":"Sucesso","status":True})
+            data = self.p.readAll()
+            stderr = bytes(data).decode("utf8")
+            logger.debug(f"process_finish_handler read: {stderr}")
+            arg_list = self.p.arguments()
+            if len(arg_list) >= 4:
+                mac = arg_list[4]
+                mac = mac[2:len(mac)-2]
+                self.processFinished.emit({"status":True,"message":stderr,"mac":mac,"type":0})
+            else:
+                self.processFinished.emit({"status":True,"message":"sucesso","type":1})
             logger.debug("QProcess finalizado")
 
     def process_error_handler(self, error):

@@ -2,6 +2,8 @@ from ui.views.listed_device_item_ui import Ui_listedDeviceForm
 
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QEvent, QCoreApplication
+from PySide6.QtBluetooth import QBluetoothUuid
+from PySide6.QtCore import QUuid
 
 class ListedDeviceItemModel(QWidget):
     
@@ -22,13 +24,14 @@ class ListedDeviceItemModel(QWidget):
         self.listedDeviceIconLabel.hide()
 
         self.deviceDict = deviceDict
-        
+        if type(self.deviceDict["uuid"]) == str: 
+            uuid = QUuid(self.deviceDict["uuid"])
+            self.deviceDict["uuid"] = QBluetoothUuid(uuid)
         # self.deviceDict["name"]    
         # self.deviceDict["mac"]
         # self.deviceDict["listName"]
         # self.deviceDict["id"]
         # self.deviceDict["uuid"]
-        # self.deviceDict["serviceId"]
         # self.deviceDict["turned_on"]
         
         self.set_texts()
@@ -39,7 +42,6 @@ class ListedDeviceItemModel(QWidget):
         device_name = device_name.format(num = self.deviceDict["listName"])
         self.listedDeviceAddressLabel.setText(self.deviceDict["mac"])
         self.listedDeviceNameLabel.setText(device_name if self.deviceDict["turned_on"] == True else f"{device_name} - {device_satus}")
-        print(f"set_texts {self.deviceDict}")
 
     def changeEvent(self, event):
         if event.type() == QEvent.Type.LanguageChange:

@@ -22,23 +22,17 @@ class ConnectedDeviceModel(QWidget):
         
         self.device_info_dict = deviceInfoDict
         
-        self.service_state = None
-        self.device_state = None
-        
         self.hidCheckLabel.hide()
         self.sppCheckLabel.hide()
+        self.comPortLabel.hide()
         # self.deviceIconLabel.hide()
 
         self.update_fields(deviceInfoDict)
-        print(f"ConnectedDeviceModel self.deviceIconLabel:{self.deviceIconLabel.pixmap()}")
 
 
     def update_fields(self,deviceInfoDict):
         self.macLabel.setText(deviceInfoDict["mac"])
-        self.comPortLabel.setText(deviceInfoDict["port"])
         self.deviceNameLabel.setText(deviceInfoDict["name"])
-        self.service_state = 1
-        self.device_state = 1
 
 
         

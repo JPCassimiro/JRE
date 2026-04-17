@@ -13,6 +13,8 @@ class IdleState(QState):
     def onEntry(self, event):
         logger.debug("IdleState onEntry")
         self.functions["release_screen"]()
+        self.machine.spp_watcher = False
+        self.machine.hid_watcher = False
         return super().onEntry(event)
 
     def onExit(self, event):
@@ -49,8 +51,8 @@ class DisconnectionState(QState):
         match(res):
             case 0:
                 logger.debug(f"DisconnectionState case 0")
-                self.btHandle.hid_device_unpair(self.btHandle.paired_device.device())
-                self.btHandle.unpair_device(self.btHandle.paired_device.device().address().toString().lower())
+                self.btHandle.hid_device_unpair(self.btHandle.paired_device)
+                self.btHandle.unpair_device(self.btHandle.paired_device.address().toString().lower())
                 self.btSerialHandle.clear_socket() 
             case 1:
                 logger.debug(f"DisconnectionState case 1")
@@ -59,8 +61,8 @@ class DisconnectionState(QState):
             case 2:
                 logger.debug(f"DisconnectionState case 2")
                 self.sp_case = True
-                self.btHandle.hid_device_unpair(self.btHandle.paired_device.device())
-                self.btHandle.unpair_device(self.btHandle.paired_device.device().address().toString().lower())
+                self.btHandle.hid_device_unpair(self.btHandle.paired_device)
+                self.btHandle.unpair_device(self.btHandle.paired_device.address().toString().lower())
                 self.btHandle.hid_device_unpair(self.machine.selected_device[0])
                 self.btHandle.unpair_device(self.machine.selected_device[0].address().toString().lower())  
                 self.btSerialHandle.clear_socket() 
@@ -79,7 +81,7 @@ class DisconnectionState(QState):
         if self.sp_case == True:
             res = self.sp_case_async_check(status)
         else:
-            res = self.machine.async_check(status)
+            res = self.async_check(status)
         logger.debug(f"DisconnectionState handle_finish res:{res}")
         if res == "disc_finish":
             logger.debug(f"DisconnectionState handle_finish disc_finish")
@@ -119,6 +121,22 @@ class DisconnectionState(QState):
         self.btHandle.spp_finish.disconnect(self.handle_finish)
         self.btHandle.hid_finish.connect(finish_send)
         self.btHandle.check_device_connection(self.machine.selected_device[0])
+
+    def async_check(self,status):
+        if status == "spp":
+           self.machine.spp_watcher = True
+        if status == "hid":
+            self.machine.hid_watcher = True
+        if self.machine.hid_watcher  == True and self.machine.spp_watcher == True:
+            self.machine.spp_watcher = False
+            self.machine.hid_watcher = False
+            logger.debug(f"async_check successfull")
+            logger.debug(f"async_check full_pair:{self.machine.full_pair}")
+            if self.machine.full_pair != None:
+                if self.machine.full_pair == True:
+                    return "conn_start"
+                else:
+                    return "disc_finish"
     
 class ErrorState(QState):
     def __init__(self, machine, bluetoohHandle, functions = None):
@@ -129,7 +147,7 @@ class ErrorState(QState):
         
     def onEntry(self, event):
         logger.debug(f"ErrorState onEntry")
-        self.functions["handle_process_ending_error"]("Erro no processo de conexão")
+        self.functions["handle_process_ending_error"]("Erro no processo de conexão!")
         return super().onEntry(event)
 
     def onExit(self, event):
@@ -148,45 +166,53 @@ class ConnectionState(QState):
         
     def onEntry(self, event):
         logger.debug("ConnectionState onEntry")
-        self.btHandle.spp_finish.connect(self.handle_finish)
+        # self.btHandle.spp_finish.connect(self.handle_finish)
         self.btHandle.hid_finish.connect(self.handle_finish)
         if self.machine.selected_device:
             self.btHandle.hid_device_pair(self.machine.selected_device[0])
-            # self.btHandle.pair_device(self.machine.selected_device[1].serviceUuid().toString(),self.machine.selected_device[0].address().toString())
-            # self.btHandle.create_service_socket(self.machine.selected_device[1])
-            self.btHandle.spp_finish.emit("spp")
         return super().onEntry(event)
 
     def onExit(self, event):
         logger.debug("ConnectionState onExit")
-        self.btHandle.spp_finish.disconnect(self.handle_finish)
+        # self.btHandle.spp_finish.disconnect(self.handle_finish)
         self.btHandle.hid_finish.disconnect(self.handle_finish)
         return super().onExit(event)
 
     def handle_finish(self, status):
-        res = self.machine.async_check(status)
+        res = self.async_check(status)
 
         if res == "conn_finish":
+            self.machine.addr = self.machine.selected_device[0].address().toString().replace(":","").lower()
             self.conn_finish.emit()
+            
+    def async_check(self,status):
+        if status == "hid":
+            return "conn_finish"
 
 class DeviceSearchState(QState):
     
     search_end = Signal()
+    fallback_finish = Signal(object)
     
-    def __init__(self, machine, bluetoohHandle, funtions = None):
+    def __init__(self, machine, bluetoohHandle, functions = None, logModel = None):
         super().__init__(machine)
         self.machine = machine
         self.btHandle = bluetoohHandle
-        self.functions = funtions
+        self.functions = functions
         self.device_counter = 0
+        self.logModel = logModel
+        self.pending_callbacks = {}
 
     def onEntry(self, event):
         logger.debug("DeviceSearchState onEntry")
+        self.logModel.append_log("Procurando por dispositivos, aguarde...")
         self.device_counter = 0
         self.machine.search = True
+        self.btHandle.unified_list = []
         self.btHandle.spp_finish.connect(self.handle_finish)
         self.btHandle.hid_finish.connect(self.handle_finish)
         self.btHandle.le_finish.connect(self.handle_power_finish)
+        self.fallback_finish.connect(self.fallback_return_result)
         self.btHandle.hid_device_discovery()
         self.btHandle.spp_service_discovery()
         return super().onEntry(event)
@@ -196,14 +222,16 @@ class DeviceSearchState(QState):
         self.btHandle.spp_finish.disconnect(self.handle_finish)
         self.btHandle.hid_finish.disconnect(self.handle_finish)
         self.btHandle.le_finish.disconnect(self.handle_power_finish)
+        self.fallback_finish.disconnect(self.fallback_return_result)
         self.machine.search = None
+        self.pending_callbacks = {}
         return super().onExit(event)
 
     def handle_finish(self, status):
-        res = self.machine.async_check(status)
+        res = self.async_check(status)
 
         if res == "search_end":
-           self.device_power_check()
+            self.device_power_check()
 
     def device_power_check(self):
         self.device_counter = len(self.btHandle.hid_device_list)
@@ -216,7 +244,7 @@ class DeviceSearchState(QState):
         logger.debug(f"DeviceSearchState handle_power_finish res:{res}")
         if res:
             self.device_counter -= 1
-            self.btHandle.unpowered_device_list.append(res)
+            self.btHandle.powered_device_list.append(res)
         else:
             self.device_counter -= 1
 
@@ -229,10 +257,96 @@ class DeviceSearchState(QState):
             controller.deleteLater()
             self.btHandle.le_controller_list.pop(self.btHandle.le_controller_list.index(controller))
             if len(self.btHandle.le_controller_list) == 0:
-                self.search_end.emit()
+                self.btHandle.unified_list = self.unify_list()
+                logger.debug(f"clear_le_controller self.btHandle.unified_list: {self.btHandle.unified_list}")
+                self.service_null_check()
 
         controller.disconnected.connect(on_disc)
         controller.disconnectFromDevice()
+        
+    def unify_list(self):
+        dict_list = []
+        
+        service_map = {
+            service.device().address().toString(): service
+            for service in self.btHandle.spp_service_list
+        }
+        
+        powered_device_map = set(self.btHandle.powered_device_list)
+        
+        for device in self.btHandle.hid_device_list:
+            d = {
+                "device": device,
+                "turned_on": False,
+                "service": None,
+            }
+            
+            if any(powered_device_map):
+                if device.address() in powered_device_map:
+                    d["turned_on"] = True
+            
+            if device.address().toString() in service_map:
+                d["service"] = service_map[device.address().toString()].serviceUuid().toString()
+            
+            dict_list.append(d)
+
+        return dict_list 
+
+    def spp_fallback(self,mac_str):
+        self.btHandle.spp_finish.connect(self.spp_fallback_finish_handle)
+        self.btHandle.spp_discovery_fallback(mac_str)
+            
+    def spp_fallback_finish_handle(self,message):
+        self.btHandle.spp_finish.disconnect(self.spp_fallback_finish_handle)
+        if len(message) >= 2:
+            self.fallback_finish.emit(message)
+            
+    def cached_check(self,mac_str):
+        logger.debug(f"cached_check mac_str: {mac_str}")
+        uuid_str = self.functions(mac_str.lower())
+        if uuid_str:
+            return uuid_str
+        else:
+            return None
+
+    def service_null_check(self):
+        try:
+            counter = False
+            for device_dict in self.btHandle.unified_list:
+                if device_dict["service"] == None and device_dict["turned_on"] == True:
+                    mac_str = device_dict["device"].address().toString()
+                    uuid_str = self.cached_check(mac_str)
+                    if uuid_str:
+                        device_dict["service"] = uuid_str
+                    else:
+                        self.pending_callbacks[mac_str] = device_dict
+                        self.spp_fallback(mac_str)
+                        counter = True
+            if counter == False:
+                logger.debug(f"service_null_check success")
+                self.search_end.emit()
+        except Exception as e:
+            logger.debug(f"service_null_check error: {e}")
+            
+    def fallback_return_result(self, message):
+        if message["mac"] in self.pending_callbacks:
+            device_dict = self.pending_callbacks.pop(message["mac"])
+            device_dict["service"] = message["uuid"]
+            
+            if not self.pending_callbacks:
+                self.search_end.emit()
+    
+    def async_check(self, status):
+        if status == "hid":
+            self.machine.hid_watcher = True
+        if status == "spp":
+            self.machine.spp_watcher = True
+           
+        if self.machine.spp_watcher == True and self.machine.hid_watcher == True:
+            self.machine.spp_watcher = False 
+            self.machine.hid_watcher = False
+            if self.machine.search:
+                return "search_end"
 
 class FindPortState(QState):
 
@@ -246,13 +360,16 @@ class FindPortState(QState):
         self.functions = functions
 
     def onEntry(self, event):
+        logger.debug(f"FindPortState onEntry")
         if self.machine.addr:
+            logger.debug(f"FindPortState self.machine.addr:{self.machine.addr}")
             self.btSerialHandle.port_finish.connect(self.on_socket_sucess)
-            self.btSerialHandle.create_service_socket(self.machine.selected_device[1])
+            self.btSerialHandle.create_service_socket(self.machine.selected_device[0].address(),self.machine.selected_device[1])
         return super().onEntry(event)
 
     def onExit(self, event):
-        self.btHandle.paired_device = self.machine.selected_device[1]
+        logger.debug(f"FindPortState onExit")
+        self.btHandle.paired_device = self.machine.selected_device[0]
         self.machine.selected_device = [None, None]
         self.machine.addr = None
         self.btSerialHandle.port_finish.disconnect(self.on_socket_sucess)

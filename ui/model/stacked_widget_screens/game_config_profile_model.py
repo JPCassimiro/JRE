@@ -8,8 +8,8 @@ from ui.model.components.end_config_model import EndConfigModel
 from PySide6.QtWidgets import QWidget, QListWidgetItem, QMessageBox, QPushButton
 from PySide6.QtCore import Qt, Signal, QCoreApplication, QEvent, QSize
 
+from modules.json_writer import JsonWriterClass
 import json
-from pathlib import Path
 
 class GameProfileModel(QWidget):
 
@@ -29,6 +29,7 @@ class GameProfileModel(QWidget):
 
         #module setup
         self.end_modal = EndConfigModel()
+        self.jsonWriter = JsonWriterClass
         
         #get ui elements
         self.gameProfileList = self.ui.gameProfileList
@@ -189,13 +190,8 @@ class GameProfileModel(QWidget):
             logger.error(f"erro ao atualizar lista: {e}")
                 
     def read_json_file(self):
-        path = Path("_internal/resources/latest_bindings")        
-        file = path / f"user_bindings.json"
-
-        with open(file, 'r') as f:
-            data = json.load(f)
-        
-        return data        
+        data = self.jsonWriter.read_json_file("_internal/resources/latest_bindings")
+        return data
 
     def create_new_config(self):
         try:

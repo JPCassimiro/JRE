@@ -316,11 +316,13 @@ class UserStatsModel(QWidget):
             session_map = {session_id: timestamp for session_id, timestamp in session}
             
             ids, values = (self.exhale_info_array + [[], []])[:2]
+            
             exhale_map = [
                 (session_map.get(session_id), value)
                 for session_id, value in zip(ids, values)
                 if session_id in session_map
             ]
+            
             ids, values = (self.inhale_info_array + [[], []])[:2]
             inhale_map = [
                 (session_map.get(session_id), value)

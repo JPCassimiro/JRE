@@ -47,6 +47,7 @@ class DataCollectorClass(QObject):
                 self.btSerialHandle.swap_message_listner(1)
                 # self.serialHandleClass.swap_message_listner(1)
                 self.btSerialHandle.mesReceivedSignal.connect(self.message_received_handler)
+                # self.btSerialHandle.fake_stat_data()
                 # self.serialHandleClass.mesReceivedSignal.connect(self.message_received_handler)
             else:
                 self.timer.stop()
@@ -63,7 +64,7 @@ class DataCollectorClass(QObject):
 
     def generate_query(self,inhale,exhale):
         try:
-            q = "insert into use_data (session_id,action,pressure) values (?,?);"
+            q = "insert into use_data (session_id,action,pressure) values (?,?,?);"
             if self.current_session_index:
                 data = []
                 #2 same size arrays with x items

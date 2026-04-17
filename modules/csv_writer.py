@@ -19,7 +19,7 @@ class CSVWriterClass(QObject):
     def export_user_data(self, data):
         if data:
             try:
-                self.csv_path = Path(f"dados_de_uso/paciente_{data["userId"]}_{unidecode(data["userName"][0][0]).replace(' ','_')}/{data["userHand"]}")#create folder structure
+                self.csv_path = Path(f"dados_de_uso/paciente_{data["userId"]}_{unidecode(data["userName"][0][0]).replace(' ','_')}")#create folder structure
                 self.csv_path.mkdir(parents=True, exist_ok=True)
                 raw_data_path = self.csv_path / "Dados_brutos_por_sessao"
                 statistical_data_path = self.csv_path / "Dados_estatisticos_por_sessao"
@@ -65,13 +65,10 @@ class CSVWriterClass(QObject):
                     writer.writeheader()
                     writer.writerows(session_data)
                     
-                #headers - avg_press_finger x 4, timestamp
+                #headers - avg_press_action x 2, timestamp
                 
-                pressure_data = data["summary_data"][:4]
-                logger.debug(f"export_user_data pressure_data:{type(pressure_data[2])}")
+                pressure_data = data["summary_data"][:2]
                 
-                avg_press_summary = []
-
                 actions = ["exhale", "inhale"]
 
                 avg_press_summary = []
@@ -91,7 +88,8 @@ class CSVWriterClass(QObject):
                     writer.writeheader()
                     writer.writerows(avg_press_summary)
 
-                avg_uses_array = data["summary_data"][4:6]
+                avg_uses_array = data["summary_data"][2:4]
+                logger.debug(f'avg_uses_array: {avg_uses_array}')
                 total_avg_pressure_map = []
                 for i, action in enumerate(actions):
                     press = avg_uses_array[0][i]
@@ -105,6 +103,7 @@ class CSVWriterClass(QObject):
                         "total_avg_pressure": f"{press:.3f}" if press is not False else None,
                         "total_uses": uses if uses is not False else None
                     })
+                    
                 summary_rest_file = summary_statistical_path / "Resumo_dados_media_e_total_de_usos.csv" 
                 with open(summary_rest_file, "w", newline='') as file:
                     fieldNames = ["action","total_avg_pressure","total_uses"]

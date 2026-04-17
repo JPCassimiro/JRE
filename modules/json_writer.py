@@ -10,6 +10,7 @@ class JsonWriterClass(QObject):
         super().__init__()
         
         self.base_path = Path("_internal/resources/latest_bindings")
+        self.device_path = Path("_internal/resources/cached_devices")
         
     def write_bindings(self,bindingDict):
         self.base_path.mkdir(parents=True, exist_ok=True)
@@ -29,4 +30,37 @@ class JsonWriterClass(QObject):
             
         logger.info(f"Configuração escrita.")
         
+    def write_devices(self, deviceDict):
+        self.device_path.mkdir(parents=True, exist_ok=True)
+        json_file = self.device_path / f"cached_devices.json"
+
+        logger.debug(f"write_devices deviceDict: {deviceDict["uuid"].toString()}")
     
+        if json_file.exists():
+            with open(json_file, 'r') as file:
+                try:
+                    data = json.load(file)
+                except json.JSONDecodeError:
+                    data = {}
+        else:
+            data = {}
+            
+
+        data[deviceDict["mac"]] = {
+            "uuid": deviceDict["uuid"].toString(),
+            "name": deviceDict["name"]
+        }
+        
+        with open(json_file, 'w') as file:
+            data_str = json.dumps(data)
+            file.write(data_str)
+            
+    def read_json_file(self, file_path_str):
+        try:
+            path = Path(file_path_str)
+            with open(path,"r") as f:
+                data = json.load(f)
+            
+            return data
+        except Exception as e:
+            return None

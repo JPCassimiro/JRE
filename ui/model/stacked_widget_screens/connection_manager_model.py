@@ -2,6 +2,7 @@ from ui.views.connection_manager_ui import Ui_loggerForm
 
 from modules.bluetooth_comunication import BluetoothCommClass
 from modules.log_class import logger
+from modules.json_writer import JsonWriterClass
 from modules.connection_manager_state_machine import (IdleState, DisconnectionState, 
                                                       ErrorState, ConnectionState, FindPortState, DeviceSearchState)
 
@@ -11,6 +12,8 @@ from ui.model.components.connected_device_item_model import ConnectedDeviceModel
 from PySide6.QtWidgets import QWidget, QListWidgetItem
 from PySide6.QtCore import Qt, Signal, QEvent
 from PySide6.QtStateMachine import QStateMachine
+
+import json
 
 #basic widget funcionalitty
     #list all available joysticks
@@ -34,6 +37,7 @@ class ConnectionManagerModel(QWidget):
         self.serialHandleClass = serialHandleClass
         self.serialBtClass = serialBtClass
         self.logModel = logModel
+        self.jsonWriter = JsonWriterClass()
         
         #setup ui
         self.ui = Ui_loggerForm()
@@ -142,9 +146,7 @@ class ConnectionManagerModel(QWidget):
         deviceInfoDict = {
             "mac": self.selected_device[0].address().toString(),
             "name": self.selected_device[0].name(),
-            "port": self.serialHandleClass.ser.portName().upper(),
             "hid_device": self.selected_device[0],
-            "service": self.selected_device[1]
         }
         #create device item
         self.connected_item = ConnectedDeviceModel(deviceInfoDict)
@@ -161,13 +163,13 @@ class ConnectionManagerModel(QWidget):
         widget = self.sender().itemWidget(item)
         if widget.isEnabled():
             device_id = widget.deviceDict["id"]
-            service_id = widget.deviceDict["service_id"]
+            service_uuid = widget.deviceDict["uuid"]
             self.selected_device[0] = self.bluetoothHandle.hid_device_list[device_id]
-            self.selected_device[1] = self.bluetoothHandle.spp_service_list[service_id]
+            self.selected_device[1] = service_uuid
             self.machine.selected_device = self.selected_device
             self.selected_list_item = index.row()
-            self.logModel.append_log(f"Dispositivo selecionado:{self._selected_list_item}")
-            logger.debug(f"device_select_handle self.selected_device{self.selected_device}")
+            self.logModel.append_log(f"Dispositivo selecionado: {self._selected_list_item+1}")
+            logger.debug(f"device_select_handle self.selected_device: {self.selected_device}")
 
     #checks for selected devices and starts the full pair
     def pair_selected_device(self):
@@ -179,9 +181,6 @@ class ConnectionManagerModel(QWidget):
     def end_full_pair(self,addr = None):
         logger.debug(f"end_full_pair addr:{addr}")
         try:
-            # self.serialHandleClass.device_mac_addr = addr
-            # self.serialHandleClass.find_port()
-            # self.serialBtClass.create_service_socket(self.selected_device[1])
             self.successful_pair()
         except Exception as e:
             self.handle_process_ending_error(f"Erro ao encontrar dispositivos\nErro: {e}")
@@ -194,10 +193,11 @@ class ConnectionManagerModel(QWidget):
             self.handle_process_ending_error("Erro ao tentar obter porta serial do joystick")
 
     def successful_pair(self):
+        self.jsonWriter.write_devices(deviceDict={"mac":self.selected_device[0].address().toString().lower(),"uuid":self.selected_device[1],"name":self.selected_device[0].name()})
         self.show_connected_device()
         item = self.deviceListWidget.takeItem(self._selected_list_item)
         del item
-        self.bluetoothHandle.paired_device = self.selected_device[1]
+        self.bluetoothHandle.paired_device = self.selected_device[0]
         self.selected_device = [None,None]
         self.selected_list_item = None
         self.logModel.append_log("Sucesso no emparelhamento")
@@ -220,42 +220,38 @@ class ConnectionManagerModel(QWidget):
     #visually updates the list and atributes deviceDict to each item
     def update_list(self):
         try:
+            
             self.deviceListWidget.clear()
             
-            powered_off_mac_dict =  set(self.bluetoothHandle.unpowered_device_list)
-            logger.debug(f"update_list powered_off_mac_dict:{powered_off_mac_dict}")
-            logger.debug(f"update_list self.bluetoothHandle.unpowered_device_list:{self.bluetoothHandle.unpowered_device_list}")
+            for i, listed_device_dict in enumerate(self.bluetoothHandle.unified_list):
+                if self.bluetoothHandle.paired_device == None or self.bluetoothHandle.paired_device.address() != listed_device_dict["device"].address(): 
 
-            logger.debug(f"update_list self.bluetoothHandle.hid_device_list:{self.bluetoothHandle.hid_device_list}")
-            logger.debug(f"update_list self.bluetoothHandle.spp_service_list:{self.bluetoothHandle.spp_service_list}")
-
-            for i, device in enumerate(self.bluetoothHandle.hid_device_list):
-                if self.bluetoothHandle.paired_device == None or self.bluetoothHandle.paired_device.device().address() != device.address(): 
                     deviceDict = {
                         "listName": i+1,
-                        "name": device.name(),
-                        "mac": device.address().toString(),
-                        "id": i
+                        "name": listed_device_dict["device"].name(),
+                        "mac": listed_device_dict["device"].address().toString(),
+                        "id": i,
+                        "turned_on": listed_device_dict["turned_on"],
+                        "uuid": listed_device_dict["service"]
                     }
-                    # if no value exist in powered_off_mac_dict an error is thrown so this stupid bullshit is here 
-                    if any(powered_off_mac_dict):
-                        deviceDict["turned_on"] = False if device.address() in powered_off_mac_dict else True
-                    else:
-                        deviceDict["turned_on"] = True
-                    if device.address() == self.bluetoothHandle.spp_service_list[i].device().address():
-                        deviceDict["uuid"] = self.bluetoothHandle.spp_service_list[i].serviceUuid().toString()
-                        deviceDict["service_id"] = i
+                    
+                    logger.debug(f"update_list deviceDict:{deviceDict}")
+
                     item = ListedDeviceItemModel(deviceDict)
                     item_container = QListWidgetItem(self.deviceListWidget)
                     item_container.setSizeHint(item.sizeHint())
+                    
                     if deviceDict["turned_on"] == False:
                         item_container.setFlags(item_container.flags() & ~(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
                         item.setEnabled(False)
+                        
                     self.deviceListWidget.addItem(item_container)
                     self.deviceListWidget.setItemWidget(item_container,item)
+                    
         except IndexError as e:
-            self.index_out_of_range_handler()
+            logger.debug(f"index out of range error")
         except Exception as e:
+            logger.debug(f"update_list error: {e}")
             self.bluetoothHandle.spp_error.emit()#force error state
             
     def index_out_of_range_handler(self):
@@ -269,6 +265,19 @@ class ConnectionManagerModel(QWidget):
         self.bluetoothHandle.spp_finish.disconnect(self.index_out_of_range_finish)
         self.handle_process_ending_error(f"Erro na busca de dispositivos, é possivel que este erro tenha sido causado pela conexão do serviço SPP, conecte e desconecte o dispostivo SPP manualmente para garantir")
         
+    def cached_device_check(self,mac_str):
+        try:
+            logger.debug(f"cached_device_check mac_str: {mac_str}")
+            data = self.jsonWriter.read_json_file("_internal/resources/cached_devices/cached_devices.json")
+            if data:
+                if data[mac_str]:
+                    device_data = data[mac_str]
+                    return device_data["uuid"]
+                else:
+                    return None
+        except Exception as e:
+            logger.debug(f"cached_device_check error: {e}")
+        
     def state_machine_init(self):
         self.machine = QStateMachine()
         
@@ -276,7 +285,7 @@ class ConnectionManagerModel(QWidget):
             "release_screen": self.release_screen,
             "disable_screen": self.disable_screen
         })
-        self.search_state = DeviceSearchState(self.machine, self.bluetoothHandle)
+        self.search_state = DeviceSearchState(self.machine, self.bluetoothHandle, functions = self.cached_device_check, logModel= self.logModel)
         self.disconnect_state = DisconnectionState(self.machine, self.bluetoothHandle, self.serialBtClass)
         self.error_state = ErrorState(self.machine, self.bluetoothHandle, functions = {
             "handle_process_ending_error": self.handle_process_ending_error
@@ -327,7 +336,6 @@ class ConnectionManagerModel(QWidget):
         self.machine.hid_watcher = None
         self.machine.full_pair = None
         self.machine.search = None
-        self.machine.async_check = self.async_check
 
         #signal connection to ui
         self.find_port_state.pair_success.connect(self.end_full_pair)
@@ -335,28 +343,6 @@ class ConnectionManagerModel(QWidget):
         self.search_state.search_end.connect(self.update_list)
         
         self.machine.start()
-
-    def async_check(self,status):
-        logger.debug(f"async_check status:{status}")
-        if status == "spp":
-           self.machine.spp_watcher = True
-        if status == "hid":
-            self.machine.hid_watcher = True
-        if self.machine.hid_watcher  == True and self.machine.spp_watcher == True:
-            self.machine.spp_watcher = False
-            self.machine.hid_watcher = False
-            logger.debug(f"async_check successfull")
-            logger.debug(f"async_check full_pair:{self.machine.full_pair}")
-            if self.machine.full_pair != None:
-                if self.machine.full_pair == True:
-                    return "conn_start"
-                else:
-                    return "disc_finish"
-            elif self.machine.search:
-                return "search_end"
-            else:
-                self.machine.addr = self.machine.selected_device[1].device().address().toString().replace(":","").lower()
-                return "conn_finish"
                 
     def changeEvent(self, event):
         if event.type() == QEvent.Type.LanguageChange:
