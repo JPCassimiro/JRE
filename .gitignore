@@ -10,4 +10,4 @@ jre.db
 dados_de_uso
 .vscode
 _internal/resources/cached_devices
-__pycahe__/
+*.pyc

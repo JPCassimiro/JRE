@@ -190,7 +190,7 @@ class GameProfileModel(QWidget):
             logger.error(f"erro ao atualizar lista: {e}")
                 
     def read_json_file(self):
-        data = self.jsonWriter.read_json_file("_internal/resources/latest_bindings")
+        data = self.jsonWriter.read_json_file("_internal/resources/latest_bindings/user_bindings.json")
         return data
 
     def create_new_config(self):
