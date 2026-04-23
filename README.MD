@@ -38,7 +38,7 @@ Execute o arquivo "main.exe"
 
 ## Manual 
 
-Em progresso
+[Leia o manual de usuário](_internal/manual/manual.md)
 
 ## Dependências
 - [Bluetooth Command Line Tools](https://bluetoothinstaller.com/bluetooth-command-line-tools) (já incluso)</br>
