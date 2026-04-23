@@ -47,7 +47,7 @@ class DataCollectorClass(QObject):
                 self.btSerialHandle.swap_message_listner(1)
                 # self.serialHandleClass.swap_message_listner(1)
                 self.btSerialHandle.mesReceivedSignal.connect(self.message_received_handler)
-                # self.btSerialHandle.fake_stat_data()
+                self.btSerialHandle.fake_stat_data()
                 # self.serialHandleClass.mesReceivedSignal.connect(self.message_received_handler)
             else:
                 self.timer.stop()

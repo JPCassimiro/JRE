@@ -5,15 +5,12 @@ from modules.log_class import logger
 from modules.json_writer import JsonWriterClass
 from modules.connection_manager_state_machine import (IdleState, DisconnectionState, 
                                                       ErrorState, ConnectionState, FindPortState, DeviceSearchState)
-
 from ui.model.components.listed_device_item_model import ListedDeviceItemModel
 from ui.model.components.connected_device_item_model import ConnectedDeviceModel
 
 from PySide6.QtWidgets import QWidget, QListWidgetItem
 from PySide6.QtCore import Qt, Signal, QEvent
 from PySide6.QtStateMachine import QStateMachine
-
-import json
 
 #basic widget funcionalitty
     #list all available joysticks
@@ -38,7 +35,7 @@ class ConnectionManagerModel(QWidget):
         self.serialBtClass = serialBtClass
         self.logModel = logModel
         self.jsonWriter = JsonWriterClass()
-        
+
         #setup ui
         self.ui = Ui_loggerForm()
         self.ui.setupUi(self)

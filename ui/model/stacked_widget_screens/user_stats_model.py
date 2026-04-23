@@ -211,11 +211,11 @@ class UserStatsModel(QWidget):
         self.legendSessionPressure.setParentItem(self.session_chart_layout_widget.layout())
         
         #action use times session
-        self.plot_item_times_used = self.session_chart_layout_widget.addPlot(title = self.string_list_graphs[7], col = 2, row = 1)
+        self.plot_item_times_used = self.session_chart_layout_widget.addPlot(title = self.string_list_graphs[8], col = 2, row = 1)
         self.plot_item_times_used.setMouseEnabled(x=False,y=False)
         self.plot_item_times_used.addItem(self.times_used_chart)
         self.plot_item_times_used.getAxis('bottom').setTicks([self.action_name_labels])
-        self.plot_item_times_used.getAxis('left').setLabel(text=self.string_list_graphs[8])
+        self.plot_item_times_used.getAxis('left').setLabel(text=self.string_list_graphs[11])
         self.plot_item_times_used.getAxis('left').setStyle(maxTickLevel=0)
         
         #summary chart widget

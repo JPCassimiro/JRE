@@ -1,9 +1,9 @@
-# Manual de utilização do JHMR 
-Este manual será responsável pela resolução de dúvidas e demonstração do uso correto do software utilizado em conjunto ao joystick para recuperação e reabilitação de mãos e dedos.</br>
+# Manual de utilização do JRE 
+Este manual será responsável pela resolução de dúvidas e demonstração do uso correto do software utilizado em conjunto ao joystick para exercícios respiratórios.</br>
 
 Utilize o índice abaixo para navegar entre sessões.</br>
 
-- [Manual de utilização do JHMR](#manual-de-utilização-do-jhmr)
+- [Manual de utilização do JRE](#manual-de-utilização-do-jre)
   - [Plataformas suportadas](#plataformas-suportadas)
   - [Instalação e execução](#instalação-e-execução)
   - [Notas gerais sobre o uso](#notas-gerais-sobre-o-uso)
@@ -29,7 +29,7 @@ Recomenda-se a utilização da ferramenta [7Zip](https://www.7-zip.org), porém 
 
 **Para utilizar a ferramenta:**</br>
 1. Acesse a pasta "main"
-2. Abra a ferramenta através de um clique duplo no executável de nome "JHMR.exe"
+2. Abra a ferramenta através de um clique duplo no executável de nome "main.exe"
 
 ## Notas gerais sobre o uso
 1. Em diversas operações, a tela da ferramenta é bloqueada e elementos ficarão cinza, indicando que não podem ser utilizados.
@@ -109,7 +109,7 @@ A imagem abaixo representa a primeira tela de calibração com os principais ele
    2. Cancela somente a etapa atual, informações da etapa anterior ainda são mantidas.
    3. Só pode ser usado durante o processo de calibração.
 4.  Reiniciar
-   1.  Limpa informações coletadas até o momento e retorna a primeira tela de calibração.
+    1.  Limpa informações coletadas até o momento e retorna a primeira tela de calibração.
 
 Segunda etapa de calibração.</br>
 <p align="center">
@@ -121,7 +121,7 @@ Tela de resultado de calibração.</br>
    <img src="imgs/calibration/calibration4.png" alt="calibrationImage3" width="75%" height="75%"/>
 </p>
 
-Os resultados são apresentados em KG. As barras medem o valor em relação ao máximo suportado, 20 KG.</br>
+Os resultados são apresentados em kPa. As barras medem o valor em relação ao máximo suportado, 40 kPa.</br>
 
 Tela da ferramenta durante o processo de calibração.</br>
 <p align="center">
@@ -139,63 +139,53 @@ A tela de configuração de botões é utilizada para associar uma tecla do tecl
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
 
-1. Controle de pressão
-   1. Este grupo de controles deslizantes permite que o usuário atribua um valor mínimo de pressão de ativação a cada dedo.
-   2. Os valores são apresentados em KG, com o máximo em 20.
-   3. Para se poder interagir com um controle deslizante é necessário escolher o dedo através do componente de número 2.
-   4. Pode-se utilizar as setas para cima e para baixo ao configurar o valor de pressão, porém antes é necessário dar um clique no controle deslizante desejado.
-2. Botões para escolha da combinação de dedos
-   1. Escolha um ou mais dedos que deseja associar a tecla de interesse através destes botões.
-   2. Outras funcionalidades desta tela são liberadas após escolher ao menos um dedo.
-3. Botão repetir
+1. Controles de pressão
+   1. Este grupo de controles deslizantes permite que o usuário atribua um valor de pressão de ativação da ação desejada.
+   2. Os valores são apresentados em kPa, com o máximo em 40 kPa.
+   3. Pode-se utilizar as setas para cima e para baixo ao configurar o valor de pressão, porém antes é necessário dar um clique no controle deslizante desejado.
+   4. Só se pode interagir com um controle deslizante por vez. Apenas uma ação pode ser configurada por vez. Caso o valor e tecla de uma ação tenha sido selecionada, mas o valor da outra ação tenha sido alterado, a tecla e valor de pressão da ação anterior voltará ao valor padrão.
+   5. Caso deseje retornar ambos os valores ao padrão, atribua o valor 0 ao controle deslizante de uma ação.
+2. Botão repetir
    1. Este botão varia entre ligado e desligado.
-   2. Quando ligado, a tecla escolhida será repetida quando o paciente acionar a combinação de dedos associada a mesma.
+   2. Quando ligado, a tecla escolhida será repetida quando o paciente realiza a ação associada a tecla.
    3. Caso contrario, a tecla só será acionada uma vez e o paciente deve utilizar a mesma combinação de dedos para acioná-la novamente.
-4. Controle de duração
+3. Controle de duração
    1. Determina quantos segundos de pressão continua são necessários para acionar a tecla.
-   2. 0 é o mínimo, acionando imediatamente quando o paciente utiliza a combinação desejada.
-5. Seleção de tecla
-   1. Botão que permite selecionar a tecla que deve ser associada a combinação de dedos desejada.
+   2. 0 é o mínimo, acionando imediatamente quando o paciente utiliza a ação desejada.
+4. Botão sopro
+   1. Botão que permite selecionar a tecla que deve ser associada a ação desejada.
    2. Ao clicar, o modal de seleção de teclas (apresentado e explicado no último item) aparece. 
-   3. Após escolher uma tecla, a mesma aparece no botão.
+   3. Após escolher uma tecla, o texto da teclas selecionada aparece no botão.
    4. Após confirmar a configuração, o texto da tecla é limpo e retorna para "Clique para selecionar".
-6. Seleção de botão C
-   1. Permite selecionar o botão C do nunchuck funciona de forma idêntica ao botão de seleção de tecla.
-   2. A exceção é que o botão continua com o texto da tecla selecionada. Isto também é verdade para o botão 7.
-   3. Isso representa o comportamento da configuração do nunchuck, sendo realizada de forma independente a combinação de dedos selecionada.
-7. Seleção de botão Z
-   1. Funcionalidade idêntica ao item acima
-8. Confirmar
+5. Botão sucção
+   1. Funcionamento identico ao botão sopro.
+6. Confirmar
    1. Envia os parâmetros de configuração para o joystick.
    2. Após o fim da transmissão, apresenta um modal com mensagens de sucesso ou falha na configuração de parâmetros.
    3. Retorna a tela ao seu estado inicial.
-9. Modal de seleção de teclas
-   1.  Utilize o teclado para selecionar a tecla desejada.
-   2.  Confirme a seleção utilizando o botão "ok".
-   3.  Cancele utilizando o botão "cancelar".
-   4.  Utilize o botão de limpar tecla caso tenha escolhido a tecla errada.
-10. Modal de finalização
-   1. Apresenta mensagens de sucesso ou falha no processo de configuração.
 
-**Como exemplo, vamos configurar a combinação do dedo mínimo com o médio para ativar a tecla A.**
+A imagem abaixo representa o modal de escolha de teclas.
+<p align="center">
+   <img src="imgs/config/config2.png" alt="configImage1" width="75%" height="75%"/>
+</p>
+
+1. Utilize o teclado para escolher uma tecla.
+2. Depois de feita a escolha, clique no botão OK.
+
+**Como exemplo, vamos configurar a ação de sopro para a ativação da a tecla A.**
 **Os parâmetros desta configuração são:**
-1. 3.0 KG de pressão para o dedo mínimo;
-2. 2.0 KG de pressão para o dedo médio;
-3. 1 segundo de duração para ativação;
-4. Repetição ligada;
-5. Teclas B e C devem ser associadas aos botões C e Z do nunchuck.
+1. 10 kPa de pressão;
+2. 1 segundo de duração para ativação;
+3. Repetição ligada;
    
 A sequência de imagens a seguir apresenta o passo a passo.</br>
 
-Primeiro, selecionamos os dedos através dos botões nomeados e atribuímos as pressões utilizando os controles deslizantes.
+Primeiro, atribuímos a pressão utilizando o controle deslizante.
 <p align="center">
-   <img src="imgs/config/config2.PNG" alt="configImage2" width="75%" height="75%"/>
+   <img src="imgs/config/config3.PNG" alt="configImage2" width="75%" height="75%"/>
 </p>
 
-Depois, atribuímos as teclas de interesse.
-<p align="center">
-   <img src="imgs/config/config3.png" alt="configImage3" width="75%" height="75%"/>
-</p>
+Depois, atribuímos a tecla desejada.
 <p align="center">
    <img src="imgs/config/config4.png" alt="configImage4" width="75%" height="75%"/>
 </p>
@@ -262,13 +252,15 @@ O item de configuração é apresentado na imagem abaixo.</br>
 
 As informações apresentadas, da direita para a esquerda, são:
 
-1. Pressões associadas a cada dedo.
-   1. Dedos são indicados pelas letras iniciais.
-2. Duração de pressão necessaria
-   1. Apresentada em segundos
-3. Repetição   
+1. Exercicio.
+   1. Descreve a ação associada a teclas.
+2. Pressão
+   1. Apresenta a pressão associada a tecla em kPa.
+3. Duração de pressão necessaria
+   1. Apresentada em segundos.
+4. Repetição   
    1. Ícone apresenta a repetição ligada ou desligada.
-4. Tecla selecionada
+5. Tecla selecionada
    1. Apresenta a tecla associada a combinação de botões.
 
 Uso da funcionalidade:
@@ -300,7 +292,6 @@ Atualmente, da-se atenção especial ao cadastro de pacientes. **Duas caracterí
 </p>
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
-
 
 1. Seleção de aba
    1. Esta tela apresenta duas abas bem similares.
@@ -358,13 +349,13 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
 
 1. Seletor de abas
    1. Estes botões permite o usuário troque entre as abas de resumo e sessões.
-   2. Além da legenda interativa e seleto de mão, a aba de resumo não apresenta botões extra.
+   2. A aba de resumo não apresenta botões extra.
 2. Gráfico de estatisticas de pressão
    1. Apresenta informações estisticas sobre valores de pressão coletados na sessão atual.
-3. Gráfico de uso por dedo
-   1. Apresenta o número total de usos de cada dedo na sessão atual.
+3. Gráfico de função respiratória
+   1. Apresenta o número total de vezes que um exercicio foi realizado.
 4. Legenda interativa
-   1. É possível escolher quais dados devem ou não aparecer no gráfico ao clicar nos quadrados coloridos
+   1. É possível escolher quais dados devem ou não aparecer no gráfico ao clicar nos quadrados coloridos.
 5. Botão "Começar coleta"
    1. Envia uma mensagem para o joystick indicando que a ferramenta esta armazenando dados de uso.
    2. Bloqueia outras funcionalidades da ferramenta.
@@ -375,7 +366,7 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
 7. Botão "Exportar dados brutos"
    1. Dados de todos os gráficos são exportados para diversos arquivos CSV.
    2. Armazenados em uma pasta na pasta raiz da ferramenta, mesma onde o executável se encontra.
-   3. Pastas são separadas por paciente e por mão utilizada.
+   3. Pastas são separadas por paciente.
 8. Botão "Exportar como imagem"
    1. Duas imagens são geradas, na mesma estrutura de pastas utilizada pelo botão "Exportar dados brutos".
    2. As imagens representam os gráficos da aba de sessão e resumo.
@@ -387,13 +378,9 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
    3. Esquema de nomeação: Ano-Mês-dia hora:minuto
 11. Botão "excluir sessão"
    1. Exclui a sessão atual e todos seus dados.
-12. Seletor de mão
-   1. Seleciona a mão desejada para a sessão.
-   2. gráficos da sessão e resumo vão mudar para refletir a escolha.
 
 Detalhes importantes   
 1. Atualizações dos gráficos não ocorrem em tempo real. É necessário terminar a coleta para que os gráficos sejam atualizados.
-2. Sessões e resumos são separados por mão selecionada. Ao coletar e apresentar dados, apenas a mão selecionada é considerada. 
 
 A sequência de imagens apresenta os vários estados da tela.</br>
 

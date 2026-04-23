@@ -22,7 +22,7 @@ class Ui_calibrationForm(object):
     def setupUi(self, calibrationForm):
         if not calibrationForm.objectName():
             calibrationForm.setObjectName(u"calibrationForm")
-        calibrationForm.resize(522, 485)
+        calibrationForm.resize(526, 493)
         self.gridLayout = QGridLayout(calibrationForm)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setHorizontalSpacing(0)
@@ -63,9 +63,9 @@ class Ui_calibrationForm(object):
         self.visualsContainer.setObjectName(u"visualsContainer")
         self.gridLayout_4 = QGridLayout(self.visualsContainer)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_4.addItem(self.horizontalSpacer_2, 0, 0, 1, 1)
+        self.gridLayout_4.addItem(self.horizontalSpacer_3, 0, 3, 1, 1)
 
         self.instructionLabel = QLabel(self.visualsContainer)
         self.instructionLabel.setObjectName(u"instructionLabel")
@@ -73,11 +73,18 @@ class Ui_calibrationForm(object):
         self.instructionLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.instructionLabel.setWordWrap(False)
 
-        self.gridLayout_4.addWidget(self.instructionLabel, 0, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.instructionLabel, 0, 2, 1, 1)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_4.addItem(self.horizontalSpacer_3, 0, 2, 1, 1)
+        self.gridLayout_4.addItem(self.horizontalSpacer_2, 0, 1, 1, 1)
+
+        self.imgLabel = QLabel(self.visualsContainer)
+        self.imgLabel.setObjectName(u"imgLabel")
+        self.imgLabel.setText(u"TextLabel")
+        self.imgLabel.setScaledContents(True)
+
+        self.gridLayout_4.addWidget(self.imgLabel, 0, 0, 1, 1)
 
 
         self.gridLayout_2.addWidget(self.visualsContainer, 0, 0, 1, 1)

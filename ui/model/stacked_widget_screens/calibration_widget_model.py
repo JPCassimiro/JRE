@@ -46,9 +46,11 @@ class CalibrationWidgetModel(QWidget):
         self.instructionText = self.ui.instructionLabel
         self.cancelButton = self.ui.cancelButton
         self.restartButton = self.ui.restartButton
+        self.imgLabel = self.ui.imgLabel
         
         self.cancelButton.setEnabled(False)
 
+        self.image_data = [["_internal/resources/icons/exhale.png",250,250],["_internal/resources/icons/inhale.png",250,250]]
         # self.instructionText.setText(QCoreApplication.translate("InstructionText",self.string_list_instruction[0]))
         self.update_instruction_ui()
 
@@ -58,22 +60,18 @@ class CalibrationWidgetModel(QWidget):
         self.restartButton.clicked.connect(self.restart_calibration)
         self.cancelButton.clicked.connect(self.cancel_button_handler)
         
-    def set_instruction_image(self,img_path,width,height,radius):
+    def set_instruction_image(self,img_path,width,height):
         try:
             img = QPixmap()
             if img.load(img_path):
-                self.instructionImage.clear()
-                self.instructionImage.setMinimumHeight(0)
-                self.instructionImage.setMinimumWidth(0)
-                self.instructionImage.setMaximumWidth(width)
-                self.instructionImage.setMaximumHeight(height)
-                if self.calibration_step == 0:
-                    self.instructionImage.setMinimumWidth(width)
-                    self.instructionImage.setMinimumHeight(height)
-                self.instructionImage.radius = radius
-                self.instructionImage.updateGeometry()
-                self.instructionImage.setPixmap(img)
-                self.instructionImage.setScaledContents(True)
+                self.imgLabel.clear()
+                self.imgLabel.setMinimumHeight(0)
+                self.imgLabel.setMinimumWidth(0)
+                self.imgLabel.setMaximumWidth(width)
+                self.imgLabel.setMaximumHeight(height)
+                self.imgLabel.updateGeometry()
+                self.imgLabel.setPixmap(img)
+                self.imgLabel.setScaledContents(True)
 
             else:
                 logger.error(f"Erro ao cerregar imagem no caminho: {img_path}")
@@ -140,13 +138,13 @@ class CalibrationWidgetModel(QWidget):
         # self.instructionText.setText(QCoreApplication.translate("InstructionText",self.string_list_instruction[1]))
         self.resultModel.hide()
         self.instructionText.show()
-        # self.instructionImage.show()
+        self.imgLabel.show()
         self.update_instruction_ui()
         self.startButton.setEnabled(True)
 
         
     def present_results(self):
-        # self.instructionImage.hide()
+        self.imgLabel.hide()
         self.instructionText.hide()
         self.resultModel.show()
         self.startButton.setDisabled(True)
@@ -215,8 +213,11 @@ class CalibrationWidgetModel(QWidget):
         ]
         if self.calibration_step == 0:
             self.instructionText.setText(self.string_list_instruction[0])
+            self.set_instruction_image(self.image_data[0][0],self.image_data[0][1],self.image_data[0][2])
         elif self.calibration_step == 1:
             self.instructionText.setText(self.string_list_instruction[1])
+            self.set_instruction_image(self.image_data[1][0],self.image_data[1][1],self.image_data[1][2])
+
 
     def changeEvent(self, event):
         if event.type() == QEvent.Type.LanguageChange:

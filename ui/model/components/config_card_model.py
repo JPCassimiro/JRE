@@ -48,9 +48,9 @@ class ConfigCardModel(QWidget):
         self.durationLabel.setText(str(self.info_dict["duration"]))
 
         if int(self.info_dict["action"]) == 1:
-            self.actionLabel.setText(self.actionLabel.text() + self.string_list_component[0])
+            self.actionLabel.setText(self.actionLabel.text() + f"{ self.string_list_component[0]}")
         elif int(self.info_dict["action"]) == 2:
-            self.actionLabel.setText(self.actionLabel.text() + self.string_list_component[1])
+            self.actionLabel.setText(self.actionLabel.text() + f"{ self.string_list_component[1]}")
         
         self.pressureLabel.setText(self.pressureLabel.text() + str(float(self.info_dict["pressure"])/10))
 

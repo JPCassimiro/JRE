@@ -83,20 +83,22 @@ class GameProfileModel(QWidget):
     
     @selected_card.setter
     def selected_card(self, item):
-        logger.debug(f"selected_card.setter item:{item}")
         self._selected_card = item
         self.selected_card_button_watcher()
     
     def selected_card_button_watcher(self):
-        logger.debug(f"selected_card_button_watcher len(self.config_list):{self.config_list}")
         if len(self.config_list) > 0:
-            logger.debug(f"selected_card_button_watcher true")
             if self._selected_card:
-                logger.debug(f"selected_card_button_watcher self._selected_card:{self._selected_card}")
                 for button in self.ui.cardButtonContainer.findChildren(QPushButton):
-                    button.setEnabled(True)        
+                    button.setEnabled(True)
+            else:
+                for button in self.ui.cardButtonContainer.findChildren(QPushButton):
+                    button.setEnabled(True)
+                self.applySelectedCardButton.setEnabled(False)
+                self.deleteCardButton.setEnabled(False)
+                self.sendToConfigScreenButton.setEnabled(False)
+                self.cardListWidget.clearSelection()
         else:
-            logger.debug(f"selected_card_button_watcher false")
             for button in self.ui.cardButtonContainer.findChildren(QPushButton):
                 button.setEnabled(False)  
             self.addNewCardButton.setEnabled(True)
@@ -126,8 +128,11 @@ class GameProfileModel(QWidget):
                 self.apply_config(bindindig_dict)
 
     def apply_selected_config_handle(self):
-        binding_dict = self.selected_card.info_dict
-        self.apply_config(binding_dict)
+        if self.selected_card:
+            binding_dict = self.selected_card.info_dict
+            self.apply_config(binding_dict)
+            self.selected_card = None
+
 
     def delete_game_profile_button(self):
         self.delete_game_profile()
@@ -237,6 +242,7 @@ class GameProfileModel(QWidget):
             logger.debug(f"game_profile_selection item:{item.text()}")
 
             self.selected_profile = item
+            self.selected_card = None
             self.populate_config_list()
         except Exception as e:
             self.handle_error_modal(QCoreApplication.translate("WarningText", "Erro ao selecionar um perfil"))
