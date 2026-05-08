@@ -1,5 +1,5 @@
 from ui.views.patient_widget_ui import Ui_patientWindowContainer
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPixmap
 

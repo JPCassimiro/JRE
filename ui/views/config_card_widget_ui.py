@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'config_card_widget.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_configCardWidgetForm(object):
         if not configCardWidgetForm.objectName():
             configCardWidgetForm.setObjectName(u"configCardWidgetForm")
         configCardWidgetForm.resize(150, 78)
-        configCardWidgetForm.setMinimumSize(QSize(100, 0))
+        configCardWidgetForm.setMinimumSize(QSize(120, 0))
         self.gridLayout_2 = QGridLayout(configCardWidgetForm)
         self.gridLayout_2.setSpacing(1)
         self.gridLayout_2.setObjectName(u"gridLayout_2")

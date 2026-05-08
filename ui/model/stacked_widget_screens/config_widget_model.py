@@ -1,14 +1,17 @@
 from ui.views.config_widget_ui import Ui_configForm
 
-from ui.model.dialogs.key_select_model import KeySelectModel
-from ui.model.components.end_config_model import EndConfigModel
+from shared_ui_modules.ui.model.dialogs.key_select_model import SharedKeySelectModel
+from shared_ui_modules.ui.model.components.end_config_model import SharedEndConfigModel
+from shared_ui_modules.ui.model.stacked_widget_screens.config_widget_model import SharedConfigWidgetModel
+
 from ui.model.custom_widgets.custom_slider_model import CustomSliderModel
 
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 from modules.json_writer import JsonWriterClass
 
 from PySide6.QtWidgets import QWidget, QRadioButton, QMessageBox, QSpacerItem, QSizePolicy
 from PySide6.QtCore import QRect, Qt, QCoreApplication, QEvent
+
 
 param_select_base_val = {
     "repeat_key":False,
@@ -16,10 +19,9 @@ param_select_base_val = {
     "duration":0
 }
 
-
-class ConfigWidgetModel(QWidget):
-    def __init__(self,serialHandleClass, btSerialHandle, LogModel):
-        super().__init__()
+class ConfigWidgetModel(SharedConfigWidgetModel):
+    def __init__(self, btSerialHandle, LogModel):
+        super().__init__( btSerialHandle, LogModel)
 
         self.string_list_dialog = [
             "Erro",   
@@ -34,9 +36,8 @@ class ConfigWidgetModel(QWidget):
         self.ui = Ui_configForm()
         self.ui.setupUi(self)
 
-        self.key_select_modal = KeySelectModel()
-        self.end_modal = EndConfigModel()
-        self.serialHandleClass = serialHandleClass
+        self.key_select_modal = SharedKeySelectModel()
+        self.end_modal = SharedEndConfigModel()
         self.logModel = LogModel
         self.btSerialHandle = btSerialHandle
         self.jsonWriter = JsonWriterClass()
@@ -152,6 +153,9 @@ class ConfigWidgetModel(QWidget):
         print(self.param_select)
 
     def confirm_button_handler(self):
+        if self.btSerialHandle.socket_none_check():
+            self.reset_screen()
+            return
         if self.selected_action == None:
             logger.debug("Selecione o valor de pressão de uma ação")
         elif self.param_select["key"] == None:
@@ -175,14 +179,6 @@ class ConfigWidgetModel(QWidget):
     def key_select_handler(self):
         self.key_select_modal.exec()
     
-    def repeat_button_handler(self):
-        print(f"radio: {self.sender().objectName} - state: {self.sender().isChecked()}")
-        if self.sender().objectName() == "repeatOffButton":
-            self.param_select.update({"repeat_key":False})
-        else:
-            self.param_select.update({"repeat_key":True})
-        print(self.param_select)
-        
     def pressure_slider_value_change(self):
         print(f"slider: {self.sender().objectName()} - value: {self.sender().value()} - index: {self.sender().property("index")}")
         if self.sender().value() != 0:
@@ -191,9 +187,6 @@ class ConfigWidgetModel(QWidget):
         else:
             self.selected_action_none_assign_watcher()
         self.sender().parent().parent().parent().currentLabel.setText(str(self.sender().value()/10) + 'kPa')
-
-    def message_received_handler(self,response):
-        self.end_modal.recieve_end_message(response)
 
     #resets info to be transmited via serial
     def value_reset_watcher(self):
@@ -218,13 +211,6 @@ class ConfigWidgetModel(QWidget):
         self.exhaleSelectButton.setText(self.string_list_components[0])
         self.durationSlider.setValue(param_select_base_val["duration"])
         self.ui.optionsContainer.setEnabled(False)
-
-    def send_serial_message(self,message):
-        if self.btSerialHandle.bt_socket != None:
-            self.btSerialHandle.open_port()
-            # self.serialHandleClass.open_port()
-            self.btSerialHandle.send_message(message)
-            # self.serialHandleClass.send_message(message)
         
     def confirm_messages_generator(self):
         messages = []
@@ -266,18 +252,6 @@ class ConfigWidgetModel(QWidget):
         elif self.selected_action == 2:
             self.inhaleSelectButton.setText(key_text.upper())
         self.key_select_modal.selected_key = None
-
-    def arrow_text_conversion(self,key):#chages literal word for directional arrows to icons
-        key_text = key
-        if key == "UP":
-            key_text = str("↑")
-        elif key == "DOWN":
-            key_text = str("↓")
-        elif key == "LEFT":
-            key_text = str("←")
-        elif key == "RIGHT":
-            key_text = str("→")
-        return key_text
 
     def assing_card_values(self,config):
         self.selected_action = False

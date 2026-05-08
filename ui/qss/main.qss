@@ -234,10 +234,7 @@ QWidget#durationHelperLabel,#repeatHelperLabel{
 /* ############################## Calibration widget ##############################*/
 /* ############################## Calibration widget ##############################*/
 
-QWidget#instructionImageLabel{
-   border: 1px solid black;
-   border-radius: 50%;
-}
+
 
 
 QWidget#instructionLabel{

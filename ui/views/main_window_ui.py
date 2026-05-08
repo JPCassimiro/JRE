@@ -34,6 +34,7 @@ class Ui_MainWindow(object):
         font = QFont()
         font.setFamilies([u"Lato"])
         MainWindow.setFont(font)
+        MainWindow.setWindowTitle(u"MainWindow")
         MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QTabWidget.TabShape.Rounded)
         MainWindow.setDockNestingEnabled(False)
@@ -153,7 +154,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.logoLabel = QLabel(self.logoContainer)
         self.logoLabel.setObjectName(u"logoLabel")
-        self.logoLabel.setText(u"JRE")
+        self.logoLabel.setText(u"JHMR")
         self.logoLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_3.addWidget(self.logoLabel)
@@ -265,7 +266,6 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.connectionMenuButton.setText(QCoreApplication.translate("MainWindow", u"Conex\u00e3o com joystick", None))
         self.calibrationButton.setText(QCoreApplication.translate("MainWindow", u"Calibra\u00e7\u00e3o", None))
         self.configButton.setText(QCoreApplication.translate("MainWindow", u"Configura\u00e7\u00e3o de bot\u00f5es", None))
@@ -275,5 +275,6 @@ class Ui_MainWindow(object):
         self.logModalButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.appConfigButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.manualButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
+        pass
     # retranslateUi
 

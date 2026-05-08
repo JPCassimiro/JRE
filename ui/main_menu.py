@@ -1,45 +1,39 @@
+from shared_ui_modules.ui.main_menu import SharedMainMenuWindow
+
 from ui.model.stacked_widget_screens.connection_manager_model import ConnectionManagerModel
-from ui.model.components.patient_widget_model import PatientWidgetModel
+from shared_ui_modules.ui.model.components.patient_widget_model import SharedPatientWidgetModel
 from ui.model.components.title_widget_model import TitleWidgetModel
 from ui.model.stacked_widget_screens.config_widget_model import ConfigWidgetModel
 from ui.model.stacked_widget_screens.calibration_widget_model import CalibrationWidgetModel
 from ui.model.stacked_widget_screens.user_actions_widget_model import UserActionsModel
 from ui.model.stacked_widget_screens.user_stats_model import UserStatsModel
-from ui.model.dialogs.log_model import LogModel
-from ui.model.dialogs.app_config_dialog_model import AppConfigModel
-from ui.model.dialogs.app_helper_model import AppHelperModel
 from ui.model.stacked_widget_screens.game_config_profile_model import GameProfileModel
+from shared_ui_modules.ui.model.dialogs.log_model import SharedLogModel
+from shared_ui_modules.ui.model.dialogs.app_config_dialog_model import SharedAppConfigModel
+from ui.model.dialogs.app_helper_model import AppHelperModule
 
 from ui.views.main_window_ui import Ui_MainWindow
 
-from PySide6.QtWidgets import QPushButton, QMainWindow, QApplication
-from PySide6.QtCore import QEvent, QCoreApplication, Qt
+from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QPixmap
 
-from modules.serial_communication import SerialCommClass
 from modules.db_functions import DbClass
-from modules.bluetooth_serial_communication import BtSerialComm
+from shared_ui_modules.modules.bluetooth_serial_communication import BtSerialComm
 
-class MainMenuWindow(QMainWindow):
+class MainMenuWindow(SharedMainMenuWindow):
     def __init__(self):
         super().__init__()
         
         #setup shared instances
-        self.serialHandleClass = SerialCommClass()
         self.dbHandleClass = DbClass()
-        self.logModel = LogModel()
+        self.logModel = SharedLogModel()
         self.btSerialHandle = BtSerialComm()
 
-        #setup translatable strings
-        self.string_list_components = [
-            "JRE"
-        ]
         
         #set main windows
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.setWindowTitle(QCoreApplication.translate("MainMenuText", self.string_list_components[0]))
-
+        self.setWindowTitle("JRE")
         
         #get logo label
         self.logoLabel = self.ui.logoLabel
@@ -60,22 +54,22 @@ class MainMenuWindow(QMainWindow):
         self.titletWidgetContainer = self.ui.titleWidget
         
         #get widgets
-        # self.logger_widget = LoggerWidgetModel(self.serialHandleClass, self.logModel)
-        self.connection_manager_widget = ConnectionManagerModel(self.serialHandleClass, self.logModel, self.btSerialHandle)
-        self.patient_widget = PatientWidgetModel()
+        # self.logger_widget = LoggerWidgetModel( self.logModel)
+        self.connection_manager_widget = ConnectionManagerModel( self.logModel, self.btSerialHandle)
+        self.patient_widget = SharedPatientWidgetModel()
         self.title_widget = TitleWidgetModel()
-        self.config_widget = ConfigWidgetModel(self.serialHandleClass,self.btSerialHandle, self.logModel)
-        self.calibration_widget = CalibrationWidgetModel(self.serialHandleClass,self.logModel, self.btSerialHandle)
+        self.config_widget = ConfigWidgetModel(self.btSerialHandle, self.logModel)
+        self.calibration_widget = CalibrationWidgetModel(self.logModel, self.btSerialHandle)
         self.user_actions_widget = UserActionsModel(self.dbHandleClass)
-        self.user_stats_widget = UserStatsModel(self.dbHandleClass,self.serialHandleClass, self.btSerialHandle, self.logModel)
+        self.user_stats_widget = UserStatsModel(self.dbHandleClass, self.btSerialHandle, self.logModel)
         self.side_menu = self.ui.sideMenu_2
         self.game_profile_widget = GameProfileModel(self.logModel,self.dbHandleClass, self.btSerialHandle)
 
         #setup config modal
-        self.appConfigModal = AppConfigModel()
+        self.appConfigModal = SharedAppConfigModel()
         
         #setup manual modal
-        self.manual_modal = AppHelperModel()
+        self.manual_modal = AppHelperModule()
         
         #setup signal connections
         self.calibration_widget.pValuesSignal.connect(self.handle_pValues_signal)
@@ -116,9 +110,6 @@ class MainMenuWindow(QMainWindow):
         self.calibrationButton.clicked.connect(self.calibration_menu_button_handler)
         self.userActionsButton.clicked.connect(self.user_menu_button_handler)
         self.statsButton.clicked.connect(self.stats_menu_button_handler)
-        self.logModalButton.clicked.connect(self.log_button_handler)
-        self.appConfigButton.clicked.connect(self.app_config_button_handler)
-        self.manualButton.clicked.connect(self.app_manual_button_handler)
         self.gameProfileButton.clicked.connect(self.game_profile_button_handler)
 
         #button toggling connections
@@ -128,6 +119,8 @@ class MainMenuWindow(QMainWindow):
         self.connection_manager_widget.sideMenuDisableSignal.connect(lambda state: self.side_menu_button_disabler(state, self.connectionMenuButton))
 
         self.stackedWidget.setCurrentIndex(0)
+
+        self.initialize_module()
 
     def connection_menu_button_handler(self):
         self.side_menu_button_toggler(self.connectionMenuButton)
@@ -155,60 +148,3 @@ class MainMenuWindow(QMainWindow):
 
     def handle_pValues_signal(self,array):
         self.config_widget.set_slider_max_value(array)
-
-    def therapist_select_handler(self,infoDict):
-        self.title_widget.info_dict = infoDict.copy()
-        self.title_widget.update_fields()
-        
-    def patient_select_handler(self,infoDict):
-        self.patient_widget.info_dict = infoDict.copy()
-        self.patient_widget.update_fields()
-        if "id" in infoDict:
-            self.user_stats_widget.assing_user(infoDict["id"],infoDict["name"])
-            self.config_widget.current_user = infoDict["id"]
-            self.game_profile_widget.assing_user(infoDict["id"])
-        
-    def log_button_handler(self):
-        self.logModel.open()
-
-    # toggles side menu buttons accordingly
-    def side_menu_button_toggler(self, clicked_button):
-        for button in self.side_menu.findChildren(QPushButton):
-            if button != clicked_button:
-                button.setEnabled(True)
-            else:
-                clicked_button.setEnabled(False)
-                
-    def side_menu_button_disabler(self, state, clicked_button):
-        for button in self.side_menu.findChildren(QPushButton):
-            if button == clicked_button:
-                clicked_button.setEnabled(False)
-            else:
-                button.setEnabled(state)
-        self.appConfigButton.setEnabled(state)
-        
-    def app_config_button_handler(self):
-        self.appConfigModal.show()
-
-    def app_manual_button_handler(self):
-        self.manual_modal.show()
-
-    def to_config_signal_handle(self,config):
-        self.config_widget.assing_card_values(config)
-        self.stackedWidget.setCurrentIndex(1)
-        self.side_menu_button_toggler(self.configButton)
-        
-    # event override    
-    def closeEvent(self, event):
-        modal_list = []
-        modal_list.append(QApplication.activeModalWidget())
-        if any(modal_list):
-            for m in modal_list:
-                m.close()
-        return super().closeEvent(event)
-
-    def changeEvent(self, event):
-        if event.type() == QEvent.Type.LanguageChange:
-            self.ui.retranslateUi(self)
-        return super().changeEvent(event)
-        

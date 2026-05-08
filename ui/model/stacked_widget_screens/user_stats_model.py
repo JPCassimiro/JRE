@@ -1,10 +1,11 @@
+from shared_ui_modules.ui.model.stacked_widget_screens.user_stats_model import SharedUserStatsModel
+
 from ui.views.user_stats_ui import Ui_useStatisticsForm
 from modules.use_data_collector import DataCollectorClass
 from modules.csv_writer import CSVWriterClass
-from modules.desktop_services import DekstopServicesClass
 
 from PySide6.QtWidgets import QWidget, QPushButton, QRadioButton, QMessageBox
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 from PySide6.QtCore import Signal, Qt, QCoreApplication, QEvent
 
 import pyqtgraph as pg
@@ -13,20 +14,20 @@ import numpy as np
 from pathlib import Path
 from unidecode import unidecode
 
-class UserStatsModel(QWidget):
+
+class UserStatsModel(SharedUserStatsModel):
 
     sideMenuDisableSignal = Signal(bool)
 
-    def __init__(self, dbHandleClass, SerialCommClass, btSerialHandle, LogModel):
-        super().__init__()
+    def __init__(self, dbHandleClass, btSerialHandle, LogModel):
+        super().__init__(dbHandleClass, btSerialHandle, LogModel)
 
         #ui setup
         self.ui = Ui_useStatisticsForm()
         self.ui.setupUi(self)
         
         #modules setup
-        self.dataCollectorHandler = DataCollectorClass(dbHandleClass, SerialCommClass, btSerialHandle, LogModel)
-        self.dbHandleClass = dbHandleClass
+        self.dataCollectorHandler = DataCollectorClass(dbHandleClass, btSerialHandle, LogModel)
         self.csvWriter = CSVWriterClass()
         
         #variables setup
@@ -58,23 +59,13 @@ class UserStatsModel(QWidget):
         self.startListening.setEnabled(False)
         self.stopListening.setEnabled(False)
         
-        #connections setup
-        self.startListening.clicked.connect(self.start_button_handler)
-        self.stopListening.clicked.connect(self.stop_button_handler)
-        self.sessionComboBox.currentIndexChanged.connect(self.comboBox_change_handler)
-        self.statsTabWidget.tabBarClicked.connect(self.update_summary_charts)
-        self.newSessionButton.clicked.connect(self.new_session_button_handler)
-        self.deleteSessionButton.clicked.connect(self.delete_session_handler)
-        self.exportSessionCSVButton.clicked.connect(self.export_session_handler)
-        self.csvWriter.exportEnd.connect(self.end_export_handle)
-        self.csvWriter.exportError.connect(self.error_export_handle)
-        self.dataCollectorHandler.errorOcurred.connect(self.data_collection_error_handle)
-        self.exportSessionImageButton.clicked.connect(self.export_as_image_handler)
-
         #create charts
         self.session_chart_layout_widget = None
         self.summary_chart_layout_widget = None
         self.create_charts()
+
+        self.initialize_modules()
+        
         
     def export_as_image_handler(self):
         if self.sessionComboBox.currentIndex() >= 0:
@@ -121,18 +112,6 @@ class UserStatsModel(QWidget):
             warning.setWindowModality(Qt.ApplicationModal)
             warning.show()
 
-    def data_collection_error_handle(self):
-        warning = QMessageBox(self)
-        warning.setWindowTitle(QCoreApplication.translate("WarningText", "Erro"))
-        warning.setText(QCoreApplication.translate("WarningText", "Erro na coleta, dados podem ter sido perdidos"))
-        warning.setWindowModality(Qt.ApplicationModal)
-        warning.show()
-        if self.dataCollectorHandler.start_watch == True:
-            self.stop_button_handler()
-        # elif self.dataCollectorHandler.start_watch = False
-            # self.stop_button_handler()
-
-    
     def create_charts(self):
         #setup text to be translated
         
@@ -266,23 +245,6 @@ class UserStatsModel(QWidget):
         self.plot_item_total_uses.setMouseEnabled(x=False, y=False)
         
 
-    def end_export_handle(self, folder_path = None):
-        warning = QMessageBox(self)
-        warning.setWindowTitle(QCoreApplication.translate("WarningText", "Sucesso"))
-        warning.setText(QCoreApplication.translate("WarningText", "Exportação realizada com sucesso. A pasta criada será aberta."))
-        warning.setWindowModality(Qt.ApplicationModal)
-        warning.show()
-        if folder_path:
-            DekstopServicesClass().open_folder(folder_path)
-
-
-    def error_export_handle(self):
-        warning = QMessageBox(self)
-        warning.setWindowTitle(QCoreApplication.translate("WarningText", "Erro"))
-        warning.setText(QCoreApplication.translate("WarningText", "Erro na exportação"))
-        warning.setWindowModality(Qt.ApplicationModal)
-        warning.show()
-
     def export_session_handler(self):
         #get user session data
         if self.sessionComboBox.currentIndex() >= 0:
@@ -346,79 +308,6 @@ class UserStatsModel(QWidget):
             warning.setText(QCoreApplication.translate("WarningText", "Selecione uma sessão"))
             warning.setWindowModality(Qt.ApplicationModal)
             warning.show()
-        
-    def delete_charts(self):
-        self.summary_chart_layout_widget.deleteLater()
-        self.session_chart_layout_widget.deleteLater()
-        # self.ui.sessionChartContainer.layout().removeWidget(self.session_chart_layout_widget)
-        # self.ui.summaryChartContainer.layout().removeWidget(self.summary_chart_layout_widget)
-        
-    def delete_session_handler(self):
-        def on_accept():
-            current_index = self.sessionComboBox.currentData()
-            q = f"""delete from session where id = ? and patient_id = ? returning id;"""
-            res = self.dbHandleClass.execute_single_query(q,[current_index,self.current_user])
-            self.populate_comboBox()
-            if res:
-                deletionMessage = QMessageBox(self)
-                deletionMessage.setWindowTitle(self.string_list_dialog[4])
-                message = self.string_list_dialog[5]
-                message = message.format(id = res[0][0], user = self.current_user)
-                deletionMessage.setText(message)
-                deletionMessage.setWindowModality(Qt.ApplicationModal)
-                deletionMessage.show()
-
-        deletionDialog = QMessageBox(self)
-        deletionDialog.setWindowTitle(self.string_list_dialog[3])
-        deletionDialog.setText(self.string_list_dialog[2])
-        deletionDialog.setWindowModality(Qt.ApplicationModal)
-        deletionDialog.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        yes_button = deletionDialog.button(QMessageBox.Yes)
-        no_button = deletionDialog.button(QMessageBox.No)
-        yes_button.setText(self.string_list_dialog[0])
-        no_button.setText(self.string_list_dialog[1])
-        deletionDialog.buttonClicked.connect(lambda btn: on_accept() if btn == yes_button else None)
-        deletionDialog.show()
-    
-    def stop_button_handler(self):
-        self.dataCollectorHandler.stop_data_collection()
-        self.button_toggler(self.stopListening)
-        self.update_session_chart_value()
-        self.update_summary_charts()
-
-        
-    def comboBox_change_handler(self):
-        current_index = self.sessionComboBox.currentData()
-        if (current_index != self.latest_session):
-            self.startListening.setEnabled(False)
-        else:
-            self.startListening.setEnabled(True)
-        self.update_session_chart_value()  
-        self.update_summary_charts()
-    
-    def start_button_handler(self):
-        self.dataCollectorHandler.start_watch = True
-        self.button_toggler(self.startListening)
-        
-    def new_session_button_handler(self):
-        session_id = self.create_session()
-        if session_id:
-            self.populate_comboBox()
-
-    def assing_user(self,user_index,user_name):
-        self.current_user = user_index
-        self.dataCollectorHandler.current_user_index = self.current_user
-        self.current_user_name = user_name
-        self.populate_comboBox()
-
-    def create_session(self):
-        q = f"""insert into session (patient_id, session_date) values (?,datetime(current_timestamp,'localtime')) returning patient_id,id;"""
-        res = self.dbHandleClass.execute_single_query(q,[self.current_user])
-        if res:
-            logger.debug(f"Seção criada para o usuário {res[0][0]}")
-            return res[0][1]
-        else:
-            return False
 
     def get_summary_chart_value(self):
         qAvg = f"""SELECT 
@@ -649,35 +538,3 @@ class UserStatsModel(QWidget):
             self.exportSessionCSVButton.setDisabled(True)
             self.exportSessionImageButton.setDisabled(True)
             self.sideMenuDisableSignal.emit(False)                
-            
-    def get_sessions(self):
-        qSessions = f"select * from session where patient_id = ?;"
-        resSessions = self.dbHandleClass.execute_single_query(qSessions,[self.current_user])
-        if resSessions:
-            return resSessions
-    
-    def populate_comboBox(self):
-        self.sessionComboBox.clear()
-        sessions = self.get_sessions()
-        if sessions:
-            for s in sessions:
-                text = str(s[2])
-                latest_session = s[0]
-                self.assing_latest_session(latest_session)
-                self.sessionComboBox.addItem(text[:len(text)-3],s[0])
-            self.sessionComboBox.setCurrentIndex(self.sessionComboBox.count()-1)
-            
-    def assing_latest_session(self,latest_session):
-        print(f"assing_latest_session:{latest_session}")
-        self.latest_session = latest_session
-        self.dataCollectorHandler.current_session_index = latest_session
-
-    def changeEvent(self, event):
-        if event.type() == QEvent.Type.LanguageChange:
-            self.ui.retranslateUi(self)
-            self.delete_charts()
-            self.create_charts()
-            self.update_session_chart_value()
-            self.update_summary_charts()
-        return super().changeEvent(event)
-        

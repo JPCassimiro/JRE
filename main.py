@@ -2,7 +2,7 @@ import sys, os
 from pathlib import Path
 
 from ui import main_menu
-from modules import log_class
+from shared_ui_modules.modules import log_class
 
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QSettings, QTranslator
@@ -10,7 +10,7 @@ from PySide6.QtGui import QIcon
 
 try:
     from ctypes import windll  
-    app_id = 'utfpr.jhrm.release.opensource'
+    app_id = 'utfpr.jre.release.opensource'
     windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 except ImportError:
     pass

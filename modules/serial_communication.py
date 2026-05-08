@@ -1,14 +1,14 @@
 import wmi
 import re
 
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 
 from PySide6.QtCore import Signal, QObject, QTimer
 from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtCore import QIODevice
 
-from usbmonitor import USBMonitor
-from usbmonitor.attributes import ID_MODEL, ID_MODEL_ID, ID_VENDOR_ID, ID_MODEL_FROM_DATABASE, ID_VENDOR_FROM_DATABASE, DEVNAME
+# from usbmonitor import USBMonitor
+# from usbmonitor.attributes import ID_MODEL, ID_MODEL_ID, ID_VENDOR_ID, ID_MODEL_FROM_DATABASE, ID_VENDOR_FROM_DATABASE, DEVNAME
 
 baud_rate = 600
 
@@ -38,7 +38,7 @@ class SerialCommClass(QObject):
         self.use_data_regex = r"\*I\d{12}"
 
         self.c = wmi.WMI()
-        self.usb_monitor = USBMonitor()
+        # self.usb_monitor = USBMonitor()
                 
         self.timer = QTimer()
         self.pause_var = False
@@ -168,12 +168,12 @@ class SerialCommClass(QObject):
             self.ser.close()
         self.ser.setPortName('')
         
-    def usb_monitor_start(self):
-        self.usb_monitor.start_monitoring(on_connect = self.on_usb_device_connect, on_disconnect = None)
+    # def usb_monitor_start(self):
+        # self.usb_monitor.start_monitoring(on_connect = self.on_usb_device_connect, on_disconnect = None)
         
-    def on_usb_device_connect(self,device_id: str, device_info: dict):
-        logger.debug(f"device_info: {device_info[ID_MODEL],device_info[ID_MODEL_ID],device_info[ID_VENDOR_ID],device_info[ID_MODEL_FROM_DATABASE], device_info[ID_VENDOR_FROM_DATABASE], device_info[DEVNAME]}")
-        logger.debug(f"device_id: {device_id}")
+    # def on_usb_device_connect(self,device_id: str, device_info: dict):
+    #     logger.debug(f"device_info: {device_info[ID_MODEL],device_info[ID_MODEL_ID],device_info[ID_VENDOR_ID],device_info[ID_MODEL_FROM_DATABASE], device_info[ID_VENDOR_FROM_DATABASE], device_info[DEVNAME]}")
+    #     logger.debug(f"device_id: {device_id}")
         
     # def find_device_by_port(self):
         

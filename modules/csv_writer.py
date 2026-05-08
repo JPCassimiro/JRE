@@ -1,7 +1,7 @@
 from PySide6.QtCore import QObject, Signal
 from PySide6.QtWidgets import QMessageBox
 
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 
 import csv
 from pathlib import Path

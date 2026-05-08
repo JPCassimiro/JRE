@@ -1,4 +1,4 @@
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 
 from PySide6.QtCore import QObject
 

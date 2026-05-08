@@ -1,7 +1,7 @@
 from ui.views.user_item_ui import Ui_userItemForm
 from ui.model.dialogs.register_model import RegisterModel
 
-from modules.log_class import logger
+from shared_ui_modules.modules.log_class import logger
 
 from PySide6.QtWidgets import QWidget, QMessageBox
 from PySide6.QtGui import QPixmap
