@@ -14,7 +14,6 @@ import numpy as np
 from pathlib import Path
 from unidecode import unidecode
 
-
 class UserStatsModel(SharedUserStatsModel):
 
     sideMenuDisableSignal = Signal(bool)
@@ -65,7 +64,6 @@ class UserStatsModel(SharedUserStatsModel):
         self.create_charts()
 
         self.initialize_modules()
-        
         
     def export_as_image_handler(self):
         if self.sessionComboBox.currentIndex() >= 0:
