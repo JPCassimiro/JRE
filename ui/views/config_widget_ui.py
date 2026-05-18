@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'config_widget.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,13 +17,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLayout,
     QLabel, QPushButton, QRadioButton, QSizePolicy,
-    QSlider, QSpacerItem, QVBoxLayout, QWidget)
+    QSlider, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_configForm(object):
     def setupUi(self, configForm):
         if not configForm.objectName():
             configForm.setObjectName(u"configForm")
-        configForm.resize(822, 539)
+        configForm.resize(822, 571)
         self.gridLayout = QGridLayout(configForm)
         self.gridLayout.setObjectName(u"gridLayout")
         self.configContainer = QWidget(configForm)
@@ -41,8 +41,9 @@ class Ui_configForm(object):
         self.optionsButtonsContainer = QWidget(self.optionsContainer)
         self.optionsButtonsContainer.setObjectName(u"optionsButtonsContainer")
         self.verticalLayout_2 = QVBoxLayout(self.optionsButtonsContainer)
-        self.verticalLayout_2.setSpacing(6)
+        self.verticalLayout_2.setSpacing(5)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(4, 4, 4, 4)
         self.repeatLabelContainer = QWidget(self.optionsButtonsContainer)
         self.repeatLabelContainer.setObjectName(u"repeatLabelContainer")
         self.horizontalLayout_3 = QHBoxLayout(self.repeatLabelContainer)
@@ -201,10 +202,10 @@ class Ui_configForm(object):
         self.horizontalLayout_7.setContentsMargins(2, 2, 2, 2)
         self.exhaleContainer = QWidget(self.slidersContainer)
         self.exhaleContainer.setObjectName(u"exhaleContainer")
-        self.horizontalLayout_6 = QHBoxLayout(self.exhaleContainer)
-        self.horizontalLayout_6.setSpacing(1)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalLayout_6.setContentsMargins(2, 2, 2, 2)
+        self.horizontalLayout_5 = QHBoxLayout(self.exhaleContainer)
+        self.horizontalLayout_5.setSpacing(10)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(2, 2, 2, 2)
         self.exhaleIconLabel = QLabel(self.exhaleContainer)
         self.exhaleIconLabel.setObjectName(u"exhaleIconLabel")
         self.exhaleIconLabel.setMinimumSize(QSize(200, 200))
@@ -212,30 +213,34 @@ class Ui_configForm(object):
         self.exhaleIconLabel.setPixmap(QPixmap(u"_internal/resources/icons/exhale.png"))
         self.exhaleIconLabel.setScaledContents(True)
 
-        self.horizontalLayout_6.addWidget(self.exhaleIconLabel)
+        self.horizontalLayout_5.addWidget(self.exhaleIconLabel)
 
         self.exhaleSliderContainer = QWidget(self.exhaleContainer)
         self.exhaleSliderContainer.setObjectName(u"exhaleSliderContainer")
         self.verticalLayout_4 = QVBoxLayout(self.exhaleSliderContainer)
-        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setSpacing(1)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(6, 0, 0, 0)
-        self.verticalSpacer = QSpacerItem(20, 489, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalLayout_4.setContentsMargins(6, 1, 1, 1)
+        self.resetExhalePressureValue = QToolButton(self.exhaleSliderContainer)
+        self.resetExhalePressureValue.setObjectName(u"resetExhalePressureValue")
+        self.resetExhalePressureValue.setText(u"...")
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
+        self.resetExhalePressureValue.setIcon(icon)
 
-        self.verticalLayout_4.addItem(self.verticalSpacer)
+        self.verticalLayout_4.addWidget(self.resetExhalePressureValue, 0, Qt.AlignmentFlag.AlignHCenter)
 
 
-        self.horizontalLayout_6.addWidget(self.exhaleSliderContainer)
+        self.horizontalLayout_5.addWidget(self.exhaleSliderContainer, 0, Qt.AlignmentFlag.AlignHCenter)
 
 
         self.horizontalLayout_7.addWidget(self.exhaleContainer)
 
         self.inhaleContainer = QWidget(self.slidersContainer)
         self.inhaleContainer.setObjectName(u"inhaleContainer")
-        self.horizontalLayout_5 = QHBoxLayout(self.inhaleContainer)
-        self.horizontalLayout_5.setSpacing(1)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(2, 2, 2, 2)
+        self.horizontalLayout_6 = QHBoxLayout(self.inhaleContainer)
+        self.horizontalLayout_6.setSpacing(10)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(2, 2, 2, 2)
         self.inhaleIconLabel = QLabel(self.inhaleContainer)
         self.inhaleIconLabel.setObjectName(u"inhaleIconLabel")
         self.inhaleIconLabel.setMinimumSize(QSize(200, 200))
@@ -243,7 +248,7 @@ class Ui_configForm(object):
         self.inhaleIconLabel.setPixmap(QPixmap(u"_internal/resources/icons/inhale.png"))
         self.inhaleIconLabel.setScaledContents(True)
 
-        self.horizontalLayout_5.addWidget(self.inhaleIconLabel)
+        self.horizontalLayout_6.addWidget(self.inhaleIconLabel)
 
         self.inhaleSliderContainer = QWidget(self.inhaleContainer)
         self.inhaleSliderContainer.setObjectName(u"inhaleSliderContainer")
@@ -251,12 +256,14 @@ class Ui_configForm(object):
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(6, 0, 0, 0)
-        self.verticalSpacer_2 = QSpacerItem(20, 489, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.resetInhalePressureValue = QToolButton(self.inhaleSliderContainer)
+        self.resetInhalePressureValue.setObjectName(u"resetInhalePressureValue")
+        self.resetInhalePressureValue.setIcon(icon)
 
-        self.verticalLayout_5.addItem(self.verticalSpacer_2)
+        self.verticalLayout_5.addWidget(self.resetInhalePressureValue, 0, Qt.AlignmentFlag.AlignHCenter)
 
 
-        self.horizontalLayout_5.addWidget(self.inhaleSliderContainer)
+        self.horizontalLayout_6.addWidget(self.inhaleSliderContainer, 0, Qt.AlignmentFlag.AlignHCenter)
 
 
         self.horizontalLayout_7.addWidget(self.inhaleContainer)
@@ -312,6 +319,13 @@ class Ui_configForm(object):
 #endif // QT_CONFIG(tooltip)
         self.confirmButton.setText(QCoreApplication.translate("configForm", u"Confirmar", None))
         self.exhaleIconLabel.setText("")
+#if QT_CONFIG(tooltip)
+        self.resetExhalePressureValue.setToolTip(QCoreApplication.translate("configForm", u"Retornar o valor de press\u00e3o a 0", u"ConfigScreenHelper"))
+#endif // QT_CONFIG(tooltip)
         self.inhaleIconLabel.setText("")
+#if QT_CONFIG(tooltip)
+        self.resetInhalePressureValue.setToolTip(QCoreApplication.translate("configForm", u"Retornar o valor de press\u00e3o a 0", u"ConfigScreenHelper"))
+#endif // QT_CONFIG(tooltip)
+        self.resetInhalePressureValue.setText(QCoreApplication.translate("configForm", u"...", None))
     # retranslateUi
 

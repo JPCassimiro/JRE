@@ -4,11 +4,15 @@ from shared_ui_modules.modules.log_class import logger
 
 from shared_ui_modules.modules.use_data_colector import SharedDataCollectorClass
 
+from modules.db_functions import DbClass
+from modules.bluetooth_serial_communication import BtSerialComm
+from shared_ui_modules.ui.model.dialogs.log_model import SharedLogModel
+
 import time
 class DataCollectorClass(SharedDataCollectorClass):
     errorOcurred = Signal(bool)
 
-    def __init__(self, dbHandleClass, btSerialHandle, logModel):
+    def __init__(self, dbHandleClass: DbClass, btSerialHandle: BtSerialComm, logModel: SharedLogModel):
         super().__init__(dbHandleClass, btSerialHandle, logModel)
         
         #variable setup

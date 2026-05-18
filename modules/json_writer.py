@@ -16,15 +16,19 @@ class JsonWriterClass(QObject):
         self.base_path.mkdir(parents=True, exist_ok=True)
         json_file = self.base_path / f"user_bindings.json"
         
-        data = {
-                "duration":f"{bindingDict["duration"]}",
-                "key": f"{bindingDict["key"]}",
-                "repeat": f"{bindingDict["repeat"]}",
-                "action": f"{bindingDict['action']}",
-                "pressure": f"{bindingDict['pressure']}",
+        dataArray = []
+        
+        for binding in bindingDict:
+            data = {
+                "duration":f"{binding["duration"]}",
+                "key": f"{binding["key"]}",
+                "repeat": f"{binding["repeat"]}",
+                "action": f"{binding['action']}",
+                "pressure": f"{binding['pressure']}",
             }
+            dataArray.append(data)
 
-        data_str = json.dumps(data, indent=4)
+        data_str = json.dumps(dataArray, indent=4)
         with open(json_file, 'w+') as file:
             file.write(data_str)
             

@@ -31,8 +31,9 @@ class MainMenuWindow(SharedMainMenuWindow):
         
         #setup shared instances
         self.dbHandleClass = DbClass()
-        self.logModel = SharedLogModel()
         self.btSerialHandle = BtSerialComm()
+        self.logModel = SharedLogModel(self.btSerialHandle)
+
             
         #set main windows
         self.ui = Ui_MainWindow()
@@ -64,7 +65,7 @@ class MainMenuWindow(SharedMainMenuWindow):
         self.title_widget = TitleWidgetModel()
         self.config_widget = ConfigWidgetModel(self.btSerialHandle, self.logModel)
         self.calibration_widget = CalibrationWidgetModel(self.logModel, self.btSerialHandle)
-        self.user_actions_widget = UserActionsModel(self.dbHandleClass)
+        self.user_actions_widget = UserActionsModel(self.dbHandleClass,self.logModel)
         self.user_stats_widget = UserStatsModel(self.dbHandleClass, self.btSerialHandle, self.logModel)
         self.side_menu = self.ui.sideMenu_2
         self.game_profile_widget = GameProfileModel(self.logModel,self.dbHandleClass, self.btSerialHandle)

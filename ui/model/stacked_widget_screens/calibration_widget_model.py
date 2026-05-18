@@ -2,11 +2,14 @@ from ui.model.components.calibration_result_model import CalibrationResultModel
 
 from shared_ui_modules.ui.model.stacked_widget_screens.calibration_shared_model import SharedCalibrationModel
 
+from shared_ui_modules.ui.model.dialogs.log_model import SharedLogModel
+from modules.bluetooth_serial_communication import BtSerialComm
+
 from PySide6.QtCore import QCoreApplication, QEvent
 
 class CalibrationWidgetModel(SharedCalibrationModel):
 
-    def __init__(self,logModel,btSerialhandle):
+    def __init__(self,logModel: SharedLogModel | None, btSerialhandle: BtSerialComm | None):
         super().__init__( logModel, btSerialhandle)
         
         self.s_list = [

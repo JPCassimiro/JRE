@@ -6,7 +6,7 @@ from PySide6.QtGui import QPixmap
 
 class ConfigCardModel(QWidget):
     #info should already have been converted into to string to you wish to present
-    def __init__(self, id, infoDict):
+    def __init__(self, id: id, infoDict: dict):
         super().__init__()
 
         self.string_list_component = [

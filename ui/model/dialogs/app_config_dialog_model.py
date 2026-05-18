@@ -11,4 +11,4 @@ class AppConfigDialogModel(SharedAppConfigModel):
 
     #!change this on every new release
     def get_version_name(self):
-        return "Unstable V1.0.0"
+        return "Unstable V1.0.1"

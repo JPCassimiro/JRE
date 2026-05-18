@@ -1,7 +1,8 @@
 from ui.views.user_item_ui import Ui_userItemForm
-from ui.model.dialogs.register_model import RegisterModel
+from shared_ui_modules.ui.model.dialogs.register_model import RegisterModel
 
 from shared_ui_modules.modules.log_class import logger
+from modules.db_functions import DbClass
 
 from PySide6.QtWidgets import QWidget, QMessageBox
 from PySide6.QtGui import QPixmap
@@ -13,7 +14,7 @@ class UserItemModel(QWidget):
     
     updateList = Signal(int)
     
-    def __init__(self, infoDict, DbHandleClass):
+    def __init__(self, infoDict: dict, DbHandleClass: DbClass):
         super().__init__()
         
         #ui setup

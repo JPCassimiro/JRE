@@ -3,9 +3,13 @@ from shared_ui_modules.ui.model.stacked_widget_screens.user_stats_model import S
 from ui.views.user_stats_ui import Ui_useStatisticsForm
 from modules.use_data_collector import DataCollectorClass
 from modules.csv_writer import CSVWriterClass
+from modules.db_functions import DbClass
+from modules.bluetooth_serial_communication import BtSerialComm
+from shared_ui_modules.ui.model.dialogs.log_model import SharedLogModel
+
+from shared_ui_modules.modules.log_class import logger
 
 from PySide6.QtWidgets import QWidget, QPushButton, QRadioButton, QMessageBox
-from shared_ui_modules.modules.log_class import logger
 from PySide6.QtCore import Signal, Qt, QCoreApplication, QEvent
 
 import pyqtgraph as pg
@@ -18,7 +22,7 @@ class UserStatsModel(SharedUserStatsModel):
 
     sideMenuDisableSignal = Signal(bool)
 
-    def __init__(self, dbHandleClass, btSerialHandle, LogModel):
+    def __init__(self, dbHandleClass: DbClass | None, btSerialHandle: BtSerialComm | None, LogModel: SharedLogModel | None):
         super().__init__(dbHandleClass, btSerialHandle, LogModel)
 
         #ui setup
