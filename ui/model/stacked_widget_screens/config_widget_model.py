@@ -142,194 +142,225 @@ class ConfigWidgetModel(SharedConfigWidgetModel):
                 self.inhaleSlider.slider.setValue(0)
 
     def button_slider_state_handler(self):
-        #if p_value[0] or [1] equals 0, reset button text, reset param_select key, reset button state
-        if self.p_value[0] == 0:
-            if self.exhaleSelectButton.isEnabled() == True:
-                self.exhaleSelectButton.setEnabled(False)
-            self.exhaleSelectButton.setText(self.string_list_components[0])
-            self.param_select.update({"key_1":None})
-        else:
-            if self.exhaleSelectButton.isEnabled() == False:
-                self.exhaleSelectButton.setEnabled(True)
-        if self.p_value[1] == 0:
-            self.inhaleSelectButton.setEnabled(False)
-            self.inhaleSelectButton.setText(self.string_list_components[0])
-            self.param_select.update({"key_2":None})
-        else:
-            if self.inhaleSelectButton.isEnabled() == False:
-                self.inhaleSelectButton.setEnabled(True)
+        try:    
+            #if p_value[0] or [1] equals 0, reset button text, reset param_select key, reset button state
+            if self.p_value[0] == 0:
+                if self.exhaleSelectButton.isEnabled() == True:
+                    self.exhaleSelectButton.setEnabled(False)
+                self.exhaleSelectButton.setText(self.string_list_components[0])
+                self.param_select.update({"key_1":None})
+            else:
+                if self.exhaleSelectButton.isEnabled() == False:
+                    self.exhaleSelectButton.setEnabled(True)
+            if self.p_value[1] == 0:
+                self.inhaleSelectButton.setEnabled(False)
+                self.inhaleSelectButton.setText(self.string_list_components[0])
+                self.param_select.update({"key_2":None})
+            else:
+                if self.inhaleSelectButton.isEnabled() == False:
+                    self.inhaleSelectButton.setEnabled(True)
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel button_slider_state_handler error: {e}")
 
     def set_slider_max_value(self,arry):
-        for i,slider in enumerate(self.slider_array):
-            slider.slider.setMaximum(arry[i])
-            slider.maxLabel.setText(str(arry[i]/10) + 'kPa')
+        try:
+            for i,slider in enumerate(self.slider_array):
+                slider.slider.setMaximum(arry[i])
+                slider.maxLabel.setText(str(arry[i]/10) + 'kPa')
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel set_slider_max_value error: {e}")
     
     def finish_modal(self):
-        self.btSerialHandle.mesReceivedSignal.disconnect(self.message_received_handler)
-        self.exhaleSlider.slider.setValue(0)
-        self.inhaleSlider.slider.setValue(0)
-    
+        try:
+            self.btSerialHandle.mesReceivedSignal.disconnect(self.message_received_handler)
+            self.exhaleSlider.slider.setValue(0)
+            self.inhaleSlider.slider.setValue(0)
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel finish_modal error: {e}")
+
     def duration_slider_value_change(self):
-        print(f"slider: {self.sender().objectName()} - value: {self.sender().value()}")
-        self.param_select.update({"duration":self.sender().value()})
-        print(self.param_select)
+        try:
+            self.param_select.update({"duration":self.sender().value()})
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel duration_slider_value_change error: {e}")
 
     def confirm_check(self):
-        logger.debug(f"ConfigWidgetModel confirm_check - p_value: {self.p_value} - self.param_select: {self.param_select}")
-        if self.param_select["key_1"] == None and self.param_select["key_2"] == None:     
-            logger.debug(f"confirm_check true no key") 
-            return True
-        elif self.p_value[0] > 0 and self.param_select["key_1"] == None:
-            logger.debug(f"confirm_check true no key_1") 
-            return True
-        elif self.p_value[1] > 0 and self.param_select["key_2"] == None:
-            logger.debug(f"confirm_check true no key_2") 
-            return True
-        else:
-            return False
+        try:
+            logger.debug(f"ConfigWidgetModel confirm_check - p_value: {self.p_value} - self.param_select: {self.param_select}")
+            if self.param_select["key_1"] == None and self.param_select["key_2"] == None:     
+                logger.debug(f"confirm_check true no key") 
+                return True
+            elif self.p_value[0] > 0 and self.param_select["key_1"] == None:
+                logger.debug(f"confirm_check true no key_1") 
+                return True
+            elif self.p_value[1] > 0 and self.param_select["key_2"] == None:
+                logger.debug(f"confirm_check true no key_2") 
+                return True
+            else:
+                return False
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel confirm_check error: {e}")
 
-    def confirm_button_handler(self):
-        check = self.confirm_check()
-        if self.btSerialHandle.socket_none_check():
+    def start_config_process(self):
+        try:
+            check = self.confirm_check()
+            if self.btSerialHandle.socket_none_check():
+                raise Exception("null socket")
+            elif check:
+                warning = QMessageBox(self)
+                warning.setWindowTitle(QCoreApplication.translate("ConfigJoystickDialogText",self.string_list_dialog[0]))
+                warning.setText(QCoreApplication.translate("ConfigJoystickDialogText",self.string_list_dialog[1]))
+                warning.setWindowModality(Qt.ApplicationModal)
+                warning.show()
+            else:
+                self.setEnabled(False)
+                messages, bindingArray = self.confirm_messages_generator()
+                self.end_modal.sent_message_total = len(messages)  
+                for message in messages:
+                    self.send_serial_message(message)
+                self.jsonWriter.write_bindings(bindingArray)
+                self.btSerialHandle.mesReceivedSignal.connect(self.message_received_handler)
+                self.end_modal.exec()
+                self.setEnabled(True)
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel start_config_process error: {e}")
             self._p_value = [0,0]
             self.p_value = (0,0)
             self.reset_variables()
             self.reset_screen()
-            return
-        elif check:
-            warning = QMessageBox(self)
-            warning.setWindowTitle(QCoreApplication.translate("ConfigJoystickDialogText",self.string_list_dialog[0]))
-            warning.setText(QCoreApplication.translate("ConfigJoystickDialogText",self.string_list_dialog[1]))
-            warning.setWindowModality(Qt.ApplicationModal)
-            warning.show()
-        else:
-            self.setEnabled(False)
-            messages, bindingArray = self.confirm_messages_generator()
-            self.end_modal.sent_message_total = len(messages)  
-            for message in messages:
-                self.send_serial_message(message)
-            self.jsonWriter.write_bindings(bindingArray)
-            self.btSerialHandle.mesReceivedSignal.connect(self.message_received_handler)
-            self.end_modal.exec()
-            self.setEnabled(True)
+            raise
 
     def key_select_handler(self):
-        self.selected_button = self.sender().property("index")
-        logger.debug(f"key_select_handler self.selected_button: {self.selected_button}")
-        self.key_select_modal.exec()
+        try:
+            self.selected_button = self.sender().property("index")
+            self.key_select_modal.exec()
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel key_select_handler error: {e}")
     
     def pressure_slider_value_change(self):
-        print(f"slider: {self.sender().objectName()} - value: {self.sender().value()} - index: {self.sender().property("index")}")
-        self.p_value = (self.sender().property("index")-1, self.sender().value())
-        self.latest_change = self.sender().property("index")
-        self.sender().parent().parent().parent().currentLabel.setText(str(self.sender().value()/10) + 'kPa')
+        try:
+            self.p_value = (self.sender().property("index")-1, self.sender().value())
+            self.latest_change = self.sender().property("index")
+            self.sender().parent().parent().parent().currentLabel.setText(str(self.sender().value()/10) + 'kPa')
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel pressure_slider_value_change error: {e}")
 
     #resets info to be transmited via serial
     def value_reset_watcher(self):
-        if self.ui.optionsContainer.isEnabled() == False:
-            self.ui.optionsContainer.setEnabled(True)
-        if self.p_value[0] == 0 and self.p_value[1] == 0:
-            self.reset_variables()
-            self.reset_screen()
-            print(f"after reset:{self.param_select}")
-            return True
-        return False
+        try:
+            if self.ui.optionsContainer.isEnabled() == False:
+                self.ui.optionsContainer.setEnabled(True)
+            if self.p_value[0] == 0 and self.p_value[1] == 0:
+                self.reset_variables()
+                self.reset_screen()
+                logger.debug(f"after reset: {self.param_select}")
+                return True
+            return False
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel value_reset_watcher error: {e}")
     
     def reset_variables(self):
-        self.param_select = param_select_base_val.copy()
-        self.selected_button = None
+        try:
+            self.param_select = param_select_base_val.copy()
+            self.selected_button = None
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel reset_variables error: {e}")
 
     def reset_screen(self):
-        self.repeatOffButton.setChecked(True)
-        self.repeatOnButton.setChecked(False)
-        self.inhaleSelectButton.setText(self.string_list_components[0])
-        self.exhaleSelectButton.setText(self.string_list_components[0])
-        self.durationSlider.setValue(param_select_base_val["duration"])
-        self.ui.optionsContainer.setEnabled(False)
-        self.exhaleSlider.slider.setValue(0)
-        self.inhaleSlider.slider.setValue(0)
-        
-    def message_normalization(self,p,action):
-        valueStr = ""
-        if(p < 10):#value always needs to be sent in a 3 digit format 
-            valueStr = f"00{p}"
-        elif(p < 100):
-            valueStr = f"0{p}"
-        message = "*M{}{}".format(action,valueStr)
-        #when sending the serial message, action index start at 1
-        return message
-        
-    def confirm_messages_generator(self):
-        messages = []
-        bindingArray = []
-        
-        for index, p in enumerate(self.p_value):
-            if p != 0:
-                mes = self.message_normalization(p,index+1)                
-                messages.append(mes)#!p_values has to come first as to determine the function
-                key = self.param_select[f"key_{index+1}"]
-                duration = self.param_select["duration"]
-                repeat = self.param_select["repeat_key"]
-                
-                if key != None:
-                    if index == 0:
-                        messages.append(f"*B{key}")
-                    elif index == 1:
-                        messages.append(f"*U{key}")
-
-                if repeat != None:
-                    messages.append(f"*T{int(repeat)}")
-
-                if duration != None:
-                    messages.append(f"*R{duration}")
-                        
-                bindingArray.append({
-                        "repeat": self.param_select["repeat_key"],
-                        "duration": self.param_select["duration"],
-                        "key": self.param_select[f"key_{index+1}"],
-                        "pressure": self.p_value[index],
-                        "action": index+1
-                    })
-                        
-        return  messages, bindingArray
-    
-    def handle_modal_finish(self):#!beter logic maybe?
-        key = self.key_select_modal.selected_key
-        key_text = self.arrow_text_conversion(key)
-        logger.debug(f"handle_modal_finish self.selected_button: {self.selected_button}")
-        if self.selected_button == 1:
-            self.param_select.update({"key_1":key})
-            self.exhaleSelectButton.setText(key_text.upper())
-        elif self.selected_button == 2:
-            self.param_select.update({"key_2":key})
-            self.inhaleSelectButton.setText(key_text.upper())
-        self.key_select_modal.selected_key = None
-
-    def assing_card_values(self,config):
-        duration = int(config["duration"])
-        repeat = bool(config["repeat"])
-        key = config["key"]
-        pressure = int(config["pressure"])
-        action = int(config["action"])-1
-                
-        self.slider_array[action].slider.setValue(pressure)
-                
-        self.durationSlider.setValue(duration)
-
-        logger.debug(f"assing_card_values repeat:{repeat}")
-        
-        if repeat == True:
-            self.repeatOnButton.setChecked(True)
-            self.repeatOffButton.setChecked(False)
-            self.param_select["repeat_key"] = True
-        else:
+        try:
             self.repeatOffButton.setChecked(True)
             self.repeatOnButton.setChecked(False)
-            self.param_select["repeat_key"] = False
+            self.inhaleSelectButton.setText(self.string_list_components[0])
+            self.exhaleSelectButton.setText(self.string_list_components[0])
+            self.durationSlider.setValue(param_select_base_val["duration"])
+            self.ui.optionsContainer.setEnabled(False)
+            self.exhaleSlider.slider.setValue(0)
+            self.inhaleSlider.slider.setValue(0)
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel reset_screen error: {e}")
+        
+    def confirm_messages_generator(self):
+        try:
+            messages = []
+            bindingArray = []
             
-        self.key_select_modal.selected_key = key
-        self.handle_modal_finish()
+            for index, p in enumerate(self.p_value):
+                if p != 0:
+                    mes = self.message_normalization(p,index+1)                
+                    messages.append(mes)#!p_values has to come first as to determine the function
+                    key = self.param_select[f"key_{index+1}"]
+                    duration = self.param_select["duration"]
+                    repeat = self.param_select["repeat_key"]
+                    
+                    if key != None:
+                        if index == 0:
+                            messages.append(f"*B{key}")
+                        elif index == 1:
+                            messages.append(f"*U{key}")
 
+                    if repeat != None:
+                        messages.append(f"*R{int(repeat)}")
+
+                    if duration != None:
+                        messages.append(f"*T{duration}")
+
+                    bindingArray.append({
+                            "repeat": self.param_select["repeat_key"],
+                            "duration": self.param_select["duration"],
+                            "key": self.param_select[f"key_{index+1}"],
+                            "pressure": self.p_value[index],
+                            "action": index+1
+                        })
+                            
+            return  messages, bindingArray
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel confirm_messages_generator error: {e}")
+            raise
+    
+    def handle_modal_finish(self):#!beter logic maybe?
+        try:
+            key = self.key_select_modal.selected_key
+            key_text = self.arrow_text_conversion(key)
+            logger.debug(f"handle_modal_finish self.selected_button: {self.selected_button}")
+            if self.selected_button == 1:
+                self.param_select.update({"key_1":key})
+                self.exhaleSelectButton.setText(key_text.upper())
+            elif self.selected_button == 2:
+                self.param_select.update({"key_2":key})
+                self.inhaleSelectButton.setText(key_text.upper())
+            self.key_select_modal.selected_key = None
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel handle_modal_finish error: {e}")
+
+    def assing_card_values(self,config):
+        try:
+            if config is None:
+                raise Exception(f"null config: {config}")
+            duration = int(config["duration"])
+            repeat = bool(config["repeat"])
+            key = config["key"]
+            pressure = int(config["pressure"])
+            action = int(config["action"])-1
+                    
+            self.slider_array[action].slider.setValue(pressure)
+                    
+            self.durationSlider.setValue(duration)
+
+            if repeat == True:
+                self.repeatOnButton.setChecked(True)
+                self.repeatOffButton.setChecked(False)
+                self.param_select["repeat_key"] = True
+            else:
+                self.repeatOffButton.setChecked(True)
+                self.repeatOnButton.setChecked(False)
+                self.param_select["repeat_key"] = False
+                
+            self.selected_button = int(config["action"])
+            self.key_select_modal.selected_key = key
+            self.handle_modal_finish()
+        except Exception as e:
+            logger.error(f"ConfigWidgetModel assing_card_values error: {e}")
+        
     def changeEvent(self, event):
         if event.type() == QEvent.Type.LanguageChange:
             self.string_list_components = [
@@ -345,4 +376,3 @@ class ConfigWidgetModel(SharedConfigWidgetModel):
                     elif i == 0:
                         self.exhaleSelectButton.setText(key_text.upper())
         return super().changeEvent(event)
-        

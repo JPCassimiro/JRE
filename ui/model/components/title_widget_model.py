@@ -7,4 +7,4 @@ class TitleWidgetModel(SharedTitleWidgetModel):
         self.initiate_module()
 
     def get_title_string(self):
-        return "Joystick for Respiratory Exercicses"
+        return "Joystick for Respiratory Exercises"

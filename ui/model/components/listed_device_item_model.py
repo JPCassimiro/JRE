@@ -45,7 +45,6 @@ class ListedDeviceItemModel(QWidget):
 
     def changeEvent(self, event):
         if event.type() == QEvent.Type.LanguageChange:
-            print(f"ListedDeviceItemModel changeEvent")
             self.ui.retranslateUi(self)
             self.set_texts()
         return super().changeEvent(event)

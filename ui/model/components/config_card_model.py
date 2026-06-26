@@ -36,7 +36,6 @@ class ConfigCardModel(QWidget):
         self.assign_text()
 
     def assign_text(self):
-        print(f"assign_text action: {self.info_dict["action"]}")
         key = self.arrow_text_conversion(self.info_dict["key"])
         self.keyLabel.setText(key.upper())
 

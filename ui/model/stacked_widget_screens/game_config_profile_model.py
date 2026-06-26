@@ -1,3 +1,5 @@
+from PySide6.QtCore import Qt
+
 from shared_ui_modules.ui.model.stacked_widget_screens.game_config_profile_model import SharedGameProfileModel
 
 from shared_ui_modules.modules.log_class import logger
@@ -20,6 +22,31 @@ class GameProfileModel(SharedGameProfileModel):
 
     def get_json_writer(self):
         return JsonWriterClass()
+
+    def create_new_config(self):
+        try:
+            
+            if self.selected_profile is None:
+                raise Exception("null profile")
+            
+            config = self.read_json_file()
+
+            q = """insert 
+                    into bindings
+                    (game_id, bindings_json)
+                    values (?,?)
+                    returning id;"""
+                    
+            for c in config:
+                res = self.dbHandle.execute_single_query(q,[self.selected_profile.data(Qt.ItemDataRole.UserRole),str(c).replace("'","\"")])
+            
+            if res:
+                logger.debug(f"nova config criada: {res[0]}")
+                self.populate_config_list()
+                self.logModel.append_log(self.log_model_translatable_strings[3])
+        except Exception as e:
+            logger.error(f"create_new_config error:{e}")
+            raise
 
     def standardize_serial_message(self,binding_dict: dict):
             messages = []

@@ -348,6 +348,9 @@ QListWidget#gameProfileList::item:selected:!active{
    background-color: #F89E59
 }
 
+QListWidget#cardListWidget::item:selected:!active{
+   background-color: #F89E59
+}
 
 QWidget#gameProfileLineEdit{
    border: 1px solid black;

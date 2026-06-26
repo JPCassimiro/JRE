@@ -1,6 +1,8 @@
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtCore import QUrl, QObject
 
+from shared_ui_modules.modules.log_class import logger
+
 class DekstopServicesClass(QObject):
     
     def __init__(self, parent = None):
@@ -11,8 +13,15 @@ class DekstopServicesClass(QObject):
 
     def open_folder(self, folderPath):
         try:
+            if folderPath is None:
+                raise Exception(f"nul folderPath")
+            
             url = QUrl.fromLocalFile(folderPath)
+
+            if url is None:
+                raise Exception(f"nul url")
+
             self.deskServ.openUrl(url)
             
         except Exception as e:
-            print(f"Erro ao abrir link: {e}")
+            logger.error(f"DesktopServicesClass open_folder error: {e}")

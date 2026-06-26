@@ -1,4 +1,7 @@
 from ui.views.custom_slider_widget_ui import Ui_customSliderForm
+
+from shared_ui_modules.modules.log_class import logger
+
 from PySide6.QtWidgets import QWidget, QStyle, QStyleOptionSlider
 
 class CustomSliderModel(QWidget):
@@ -21,35 +24,36 @@ class CustomSliderModel(QWidget):
         
         
     def adjust_roundness(self):
-        # opt = QStyleOptionSlider()
-        # opt.initFrom(self.slider)
-        # opt.orientation = self.slider.orientation()
-        # opt.minimum = self.slider.minimum()
-        # opt.maximum = self.slider.maximum()
-        # opt.tickPosition = self.slider.tickPosition()
-        # opt.sliderPosition = self.slider.sliderPosition()
-        # opt.sliderValue = self.slider.value()
-        # rect = self.slider.style().subControlRect(QStyle.ComplexControl.CC_Slider, opt, QStyle.SubControl.SC_ScrollBarSlider, self.slider)
-        # print(f"CustomSliderModel adjust_roundness - size:{rect.size()}")
+        try:
+            # opt = QStyleOptionSlider()
+            # opt.initFrom(self.slider)
+            # opt.orientation = self.slider.orientation()
+            # opt.minimum = self.slider.minimum()
+            # opt.maximum = self.slider.maximum()
+            # opt.tickPosition = self.slider.tickPosition()
+            # opt.sliderPosition = self.slider.sliderPosition()
+            # opt.sliderValue = self.slider.value()
+            # rect = self.slider.style().subControlRect(QStyle.ComplexControl.CC_Slider, opt, QStyle.SubControl.SC_ScrollBarSlider, self.slider)
 
-        if self.slider.value() <= (self.slider.maximum())*0.15:
-            self.slider.setStyleSheet("""
-                QWidget#slider>QSlider::add-page{
-                border-radius: 5px;}""")
-        if self.slider.value() <= (self.slider.maximum())*0.125:
-            self.slider.setStyleSheet("""
-                QWidget#slider>QSlider::add-page{
-                border-radius: 4px;}""")
-        if self.slider.value() <= (self.slider.maximum())*0.1:
-            self.slider.setStyleSheet("""
-                QWidget#slider>QSlider::add-page{
-                border-radius: 2px;}""")
-        if self.slider.value() <= (self.slider.maximum())*0.075:
-            self.slider.setStyleSheet("""
-                QWidget#slider>QSlider::add-page{
-                border-radius: 1px;}""")
-        if self.slider.value() >= (self.slider.maximum())*0.155:
-            self.slider.setStyleSheet("""
-                QWidget#slider>QSlider::add-page{
-                border-radius: 6px;}""")
-        
+            if self.slider.value() <= (self.slider.maximum())*0.15:
+                self.slider.setStyleSheet("""
+                    QWidget#slider>QSlider::add-page{
+                    border-radius: 5px;}""")
+            if self.slider.value() <= (self.slider.maximum())*0.125:
+                self.slider.setStyleSheet("""
+                    QWidget#slider>QSlider::add-page{
+                    border-radius: 4px;}""")
+            if self.slider.value() <= (self.slider.maximum())*0.1:
+                self.slider.setStyleSheet("""
+                    QWidget#slider>QSlider::add-page{
+                    border-radius: 2px;}""")
+            if self.slider.value() <= (self.slider.maximum())*0.075:
+                self.slider.setStyleSheet("""
+                    QWidget#slider>QSlider::add-page{
+                    border-radius: 1px;}""")
+            if self.slider.value() >= (self.slider.maximum())*0.155:
+                self.slider.setStyleSheet("""
+                    QWidget#slider>QSlider::add-page{
+                    border-radius: 6px;}""")
+        except Exception as e:
+            logger.error(f"CustomSliderModel adjust_roundness error: {e}")

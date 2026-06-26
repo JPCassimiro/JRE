@@ -11,3 +11,4 @@ dados_de_uso
 .vscode
 _internal/resources/cached_devices
 *.pyc
+test_jre.db

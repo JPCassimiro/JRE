@@ -38,20 +38,20 @@ class DataCollectorClass(SharedDataCollectorClass):
     
     def generate_query(self,inhale,exhale):
         try:
+            if self.current_session_index is None:
+                raise Exception(f"null current_session: {self.current_session_index}")
+
             q = "insert into use_data (session_id,action,pressure) values (?,?,?);"
-            if self.current_session_index:
-                data = []
-                #2 same size arrays with x items
-                for i,v in enumerate(inhale):
-                    if int(inhale[i]) > 0:
-                        data.append((self.current_session_index, 'inhale', int(inhale[i])))
-                    if int(exhale[i]) > 0:
-                        data.append((self.current_session_index, 'exhale', int(exhale[i])))
-                return q,data
-            else:
-                logger.error(f"Não pode gerar um query para estatisticas de uso, paciente não selecionado")
+            data = []
+            #2 same size arrays with x items
+            for i,v in enumerate(inhale):
+                if int(inhale[i]) > 0:
+                    data.append((self.current_session_index, 'inhale', int(inhale[i])))
+                if int(exhale[i]) > 0:
+                    data.append((self.current_session_index, 'exhale', int(exhale[i])))
+            return q,data
         except Exception as e:
-            logger.error(f"Erro durante a geração da query para entrada de dados no BD: {e}")
+            logger.error(f"DataCollectorClass generate_query error: {e}")
             self.message_buffer = [[],[]]
             self.errorOcurred.emit(True)
         
@@ -68,7 +68,7 @@ class DataCollectorClass(SharedDataCollectorClass):
             else:
                 logger.debug(f"Message buffer vazio: {self.message_buffer}")
         except Exception as e:
-            logger.error(f"Erro ao iniciar o processo de padronização de leituras: {e}")
+            logger.error(f"DataCollectorClass timeout_handle error: {e}")
             self.message_buffer = [[],[]]
             self.errorOcurred.emit(True)
 
@@ -77,11 +77,14 @@ class DataCollectorClass(SharedDataCollectorClass):
     #splits message on each array
     #each message has 3 digits
     def message_received_handler(self,message):
-        logger.debug(f"DataCollectorClass message_received_handler message:{message}")
-        self.logModel.append_log(message)
-        for m in message:
-            messages = [m[2:5],m[5:]] 
-            for i, msg in enumerate(messages):
-                self.message_buffer[i].append(messages[i])
-                logger.debug(f"Mensagem adicionada ao buffer no indice {i}: {messages[i]}")
-                logger.debug(f"Pressões recebidas - Sopro: {int(messages[0])/10} kPa - Sucção: {int(messages[1])/10} kPa")
+        try:
+            logger.debug(f"DataCollectorClass message_received_handler message:{message}")
+            self.logModel.append_log(message)
+            for m in message:
+                messages = [m[2:5],m[5:]] 
+                for i, msg in enumerate(messages):
+                    self.message_buffer[i].append(messages[i])
+                    logger.debug(f"Mensagem adicionada ao buffer no indice {i}: {messages[i]}")
+                    logger.debug(f"Pressões recebidas - Sopro: {int(messages[0])/10} kPa - Sucção: {int(messages[1])/10} kPa")
+        except Exception as e:
+            logger.error(f"DataCollectorClass message_received_handler error: {e}")

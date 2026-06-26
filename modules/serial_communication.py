@@ -78,7 +78,6 @@ class SerialCommClass(QObject):
         data = self.ser.readAll()#these messages can be recieved in any way at any time, so it can be split or concateneted
         dataStr = data.toStdString()
         self.message_buffer += dataStr
-        print(f"recive_message:{self.message_buffer}")
         while "N" in self.message_buffer or "A" in self.message_buffer:
             last_index = 0
             for i, c in enumerate(self.message_buffer):#get the substring up to the limiter
@@ -99,7 +98,7 @@ class SerialCommClass(QObject):
             dataStr = data.toStdString()
             self.use_data_buffer += dataStr
             matches = list(re.finditer(self.use_data_regex,self.use_data_buffer))
-            print(f"recieve_use_data_message self.use_data_buffer:{self.use_data_buffer}\ndataStr:{dataStr}\nmatches:{matches}")
+            logger.debug(f"recieve_use_data_message self.use_data_buffer:{self.use_data_buffer}\ndataStr:{dataStr}\nmatches:{matches}")
             if matches:
                 last_match = matches[-1]
                 start, end = last_match.span()

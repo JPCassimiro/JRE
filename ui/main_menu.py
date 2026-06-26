@@ -19,6 +19,7 @@ from PySide6.QtGui import QPixmap
 
 from modules.db_functions import DbClass
 from modules.bluetooth_serial_communication import BtSerialComm
+from shared_ui_modules.modules.log_class import logger
 
 #!before new release
     #!change config.init current version on app_config_dialog_model
@@ -128,28 +129,49 @@ class MainMenuWindow(SharedMainMenuWindow):
         self.initialize_module()
 
     def connection_menu_button_handler(self):
-        self.side_menu_button_toggler(self.connectionMenuButton)
-        self.stackedWidget.setCurrentIndex(0)
+        try:    
+            self.side_menu_button_toggler(self.connectionMenuButton)
+            self.stackedWidget.setCurrentIndex(0)
+        except Exception as e:
+            logger.error(f"MainMenuWindow connection_menu_button_handler error: {e}")
         
     def config_menu_button_handler(self):
-        self.side_menu_button_toggler(self.configButton)
-        self.stackedWidget.setCurrentIndex(1)
+        try:    
+            self.side_menu_button_toggler(self.configButton)
+            self.stackedWidget.setCurrentIndex(1)
+        except Exception as e:
+            logger.error(f"MainMenuWindow config_menu_button_handler error: {e}")
 
     def calibration_menu_button_handler(self):
-        self.side_menu_button_toggler(self.calibrationButton)
-        self.stackedWidget.setCurrentIndex(2)     
+        try:    
+            self.side_menu_button_toggler(self.calibrationButton)
+            self.stackedWidget.setCurrentIndex(2)     
+        except Exception as e:
+            logger.error(f"MainMenuWindow calibration_menu_button_handler error: {e}")
         
     def stats_menu_button_handler(self):
-        self.side_menu_button_toggler(self.statsButton)
-        self.stackedWidget.setCurrentIndex(4)
+        try:    
+            self.side_menu_button_toggler(self.statsButton)
+            self.stackedWidget.setCurrentIndex(4)
+        except Exception as e:
+            logger.error(f"MainMenuWindow stats_menu_button_handler error: {e}")
         
     def user_menu_button_handler(self):
-        self.side_menu_button_toggler(self.userActionsButton)
-        self.stackedWidget.setCurrentIndex(3)     
+        try:    
+            self.side_menu_button_toggler(self.userActionsButton)
+            self.stackedWidget.setCurrentIndex(3)     
+        except Exception as e:
+            logger.error(f"MainMenuWindow user_menu_button_handler error: {e}")
     
     def game_profile_button_handler(self):
-        self.side_menu_button_toggler(self.gameProfileButton)
-        self.stackedWidget.setCurrentIndex(5)
+        try:    
+            self.side_menu_button_toggler(self.gameProfileButton)
+            self.stackedWidget.setCurrentIndex(5)
+        except Exception as e:
+            logger.error(f"MainMenuWindow game_profile_button_handler error: {e}")
 
     def handle_pValues_signal(self,array):
-        self.config_widget.set_slider_max_value(array)
+        try:
+            self.config_widget.set_slider_max_value(array)
+        except Exception as e:
+            logger.error(f"MainMenuWindow handle_pValues_signal error: {e}")

@@ -143,8 +143,7 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
    1. Este grupo de controles deslizantes permite que o usuário atribua um valor de pressão de ativação da ação desejada.
    2. Os valores são apresentados em kPa, com o máximo em 40 kPa.
    3. Pode-se utilizar as setas para cima e para baixo ao configurar o valor de pressão, porém antes é necessário dar um clique no controle deslizante desejado.
-   4. Só se pode interagir com um controle deslizante por vez. Apenas uma ação pode ser configurada por vez. Caso o valor e tecla de uma ação tenha sido selecionada, mas o valor da outra ação tenha sido alterado, a tecla e valor de pressão da ação anterior voltará ao valor padrão.
-   5. Caso deseje retornar ambos os valores ao padrão, atribua o valor 0 ao controle deslizante de uma ação.
+   4. Use o botão com o icone de lixeira para retornar o vaõr de pressão a 0.
 2. Botão repetir
    1. Este botão varia entre ligado e desligado.
    2. Quando ligado, a tecla escolhida será repetida quando o paciente realiza a ação associada a tecla.
