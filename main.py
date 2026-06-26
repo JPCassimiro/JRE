@@ -40,7 +40,7 @@ def main():
 
         app.setWindowIcon(QIcon("_internal/resources/icons/logo.ico"))
             
-        print(f"-------------JRE Unstable V1.0.1-------------")
+        print(f"-------------JRE Stable V1.0.2-------------")
         app.exec()
     except Exception as e:
         log_class.logger.exception(f"Erro na execução do Main\nErro: {e}")
