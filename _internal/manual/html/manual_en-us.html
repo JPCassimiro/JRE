@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>JRE&apos;s User manual</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <span id="markdown-mermaid" aria-hidden="true" data-config="{&quot;darkModeTheme&quot;:&quot;vscode&quot;,&quot;lightModeTheme&quot;:&quot;vscode&quot;,&quot;maxTextSize&quot;:50000,&quot;clickDrag&quot;:&quot;alt&quot;,&quot;showControls&quot;:&quot;onHoverOrFocus&quot;,&quot;resizable&quot;:true,&quot;maxHeight&quot;:&quot;&quot;}"></span>
+				<h1 id="jres-user-manual">JRE's User manual</h1>
+<p>The purpose of this manual is to answer user questions and present the correct use of the tool together with the joystick for respiratory exercises<br>.</p>
+<p>Use the index below to navigate between sections.</br></p>
+<ul>
+<li><a href="#jres-user-manual">JRE's User manual</a>
+<ul>
+<li><a href="#supported-platforms">Supported platforms</a></li>
+<li><a href="#installing-and-running">Installing and running</a></li>
+<li><a href="#general-notes-about-the-use">General notes about the use</a></li>
+<li><a href="#joystick-connection">Joystick connection</a></li>
+<li><a href="#calibration">Calibration</a></li>
+<li><a href="#button-configuration">Button configuration</a></li>
+<li><a href="#game-config-profile">Game config profile</a></li>
+<li><a href="#user-actions">User actions</a></li>
+<li><a href="#user-statistics">User statistics</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="supported-platforms">Supported platforms</h2>
+<p>This tool works exclusively on the Windows operating system</br></p>
+<h2 id="installing-and-running">Installing and running</h2>
+<p>The tool does not need to be installed, you only need to extract the downloaded file.</br></p>
+<p>For this, the <a href="https://www.7-zip.org">7Zip</a> tool is recommended, though other tools will work fine.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\install\install1.png" alt="InstallImage1" width="75%" height="75%"/>
+</p>
+<p><strong>To use the tool:</strong></br></p>
+<ol>
+<li>Acess the folder &quot;main&quot;</li>
+<li>Open the tool by double-clicking the executable named &quot;main.exe&quot;</li>
+</ol>
+<h2 id="general-notes-about-the-use">General notes about the use</h2>
+<ol>
+<li>In multiple functions, the screen of the tool will be grayed out and will be blocked, meaning they cant be used.
+<ol>
+<li>This is made so conflicting operations are not executed at the same time.</li>
+<li>Wait for the current function to complete so the tool can resume operation.</li>
+</ol>
+</li>
+</ol>
+<h2 id="joystick-connection">Joystick connection</h2>
+<p><strong>OBS:</strong> It's important to remember that connections to the device should only be made through the tool and not to the Windows bluetooth interface. The tool can only detect the joystick when the connection is made through it.</p>
+<p>The connection manager is the first screen that appears when opening the tool. Other functions can't be executed if the joystick has not been properly connected.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\connection\connection1.png" alt="connectionImage1" width="75%" height="75%"/>
+</p>
+<p>The image above representss the connection manager screen with it's main elements numbered.</br></p>
+<ol>
+<li>Device list
+<ol>
+<li>Updated after clicking the search device button.</li>
+<li>Click on a listed device to select it for pairing.</li>
+<li>Turned-off devices can also appear on the list but receive the &quot;turned-off&quot; status, and can't be interacted with.</li>
+</ol>
+</li>
+<li>Connected device
+<ol>
+<li>When no device is connected, the frame is grayed out.</li>
+<li>When a device is connected, information is presented and the frame gets orange.</li>
+</ol>
+</li>
+<li>Unpair device button
+<ol>
+<li>Unpairs the currently connected device.</li>
+<li>Can only be done if a device is connected.</li>
+</ol>
+</li>
+<li>Magnifying glass
+<ol>
+<li>Searches for available devices.</li>
+</ol>
+</li>
+<li>Pair device
+<ol>
+<li>Pair the selected device from the list.</li>
+</ol>
+</li>
+</ol>
+<p>Use the magnifying glass button to find devices. After pressing it, we get the following screen.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\connection\connection2.png" alt="connectionImage2png" width="75%" height="75%"/>
+</p>
+<p>More than one device can appear on the list.</br></p>
+<p>To continue the connection process, click on the listed device. The screen will look like this.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\connection\connection3.png" alt="connectionImage3" width="75%" height="75%"/>
+</p>
+<p>Now the pair device button can be clicked.</br></p>
+<p>After clicking the pair device button and waiting for the process to conclude, the previously grayed-out connected device panel is now highlighted in orange.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\connection\connection4.png" alt="connectionImage4" width="75%" height="75%"/>
+</p>
+<p>The device is ready for use.</br></p>
+<p>Only one device can be connected at a time.</br></p>
+<h2 id="calibration">Calibration</h2>
+<p>The calibration function is used to measure the user's respiratory strength through the joystick.</br></p>
+<p>The screen has three buttons and instructions on how to take the measurements. The whole process is composed by two measuring steps and a presentation step, that shows the results.</br>
+The image below presents the calibration screen with it's elements numbered.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\calibration\calibration1.png" alt="calibrationImage1" width="75%" height="75%"/>
+</p>
+<ol>
+<li>Instructions
+<ol>
+<li>Image and text that presents the instructions for the current step.</li>
+</ol>
+</li>
+<li>Start
+<ol>
+<li>Used to start the calibration process, sending a command to the joystick, signalling that the tool is ready to receive pressure information from the device.</li>
+</ol>
+</li>
+<li>Cancel
+<ol>
+<li>Interrupts the calibration process. The current step is canceled and information is discarded.</li>
+<li>Will only cancel the current step, the information from the previous step are kept.</li>
+<li>Can only be used during a calibration step.</li>
+</ol>
+</li>
+<li>Restart
+<ol>
+<li>Clear collected data and returns to the start of the calibration process.</li>
+</ol>
+</li>
+</ol>
+<p>Second calibration step.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\calibration\calibration3.png" alt="calibrationImage2" width="75%" height="75%"/>
+</p>
+<p>Calibration results.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\calibration\calibration4.png" alt="calibrationImage3" width="75%" height="75%"/>
+</p>
+<p>The pressure is measured in kPa. The bars display the value in relation to the maximum supported, 40 kPa.</br></p>
+<p>Tool during the calibration process</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\calibration\calibration5.png" alt="calibrationImage4" width="75%" height="75%"/>
+</p>
+<p>As <a href="#general-notes-about-the-use">said before</a>, other functionalities are blocked during calibration.</p>
+<h2 id="button-configuration">Button configuration</h2>
+<p>The button configuration screen is used to associate a keyboard key to an action(inhale/exhale) and other parameters like pressure and activation time.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\config\config1.png" alt="configImage1" width="75%" height="75%"/>
+</p>
+<p>The above image presents the screen with it's main elements numbered.</br></p>
+<ol>
+<li>Pressure controls
+<ol>
+<li>This group of sliders allows the user to assign a pressure value to the desired action.</li>
+<li>The values are representsed in kPa, with a maximum of 40 kPa.</li>
+<li>It's possible to use the keyboard arrow keys or mouse scroll wheel to alter the pressure value, though the user needs to click on the slider first.</li>
+<li>Use the trash can button to set the pressure value to 0.</li>
+</ol>
+</li>
+<li>Repeat button
+<ol>
+<li>This button varies between turned-on and off.</li>
+<li>When turned-on, the selected key will be repeated when the user executes the action associated to it.</li>
+<li>If turned-off, the key will only be activated once per action.</li>
+</ol>
+</li>
+<li>Duration slider
+<ol>
+<li>Used to choose the amount of time of continuous pressure needed to activate the key.</li>
+<li>Measured in seconds.</li>
+<li>0 is the minimum, activating the key immediately after the patient does the desired action.</li>
+</ol>
+</li>
+<li>Exhale button
+<ol>
+<li>Button that allows the user to select the key to be associated with the desired action.</li>
+<li>When clicking, a key selection dialog will appear.</li>
+<li>After selecting a key, the text of the selected key will appear on the button.</li>
+<li>After confirming the configuration, the text on the button reverts to the default &quot;click to select&quot;.</li>
+</ol>
+</li>
+<li>Inhale button
+<ol>
+<li>Exact same function as exhale button.</li>
+</ol>
+</li>
+<li>Confirm
+<ol>
+<li>Sends the parameters of configuration to the joystick.</li>
+<li>After sending the configuration messages, presents a dialog window with a message of success or failure.</li>
+<li>Returns the screen to it's initial state.</li>
+</ol>
+</li>
+</ol>
+<p>The image below representss the key select dialog.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\config\config2.png" alt="configImage1" width="75%" height="75%"/>
+</p>
+<ol>
+<li>Use the keyboard to select a key.</li>
+<li>After the choice is made, click on the OK button.</li>
+</ol>
+<p><strong>As an example, let's configure the exhale action to activate the letter A.</strong>
+<strong>The parameters are:</strong></p>
+<ol>
+<li>A pressure of 10 kPa;</li>
+<li>1 second of duration to activation;</li>
+<li>Turned-on repetition;</li>
+</ol>
+<p>The following images represents the step by step process.</br></p>
+<p>First, assign the pressure on the slider.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\config\config3.PNG" alt="configImage2" width="75%" height="75%"/>
+</p>
+<p>After, assign the desired key.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\config\config4.png" alt="configImage4" width="75%" height="75%"/>
+</p>
+<p>Finally, assign the parameters of duration and repetition.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\config\config5.png" alt="configImage5" width="75%" height="75%"/>
+</p>
+<p>Now the joystick is configured.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\config\config6.png" alt="configImage6" width="75%" height="75%"/>
+</p>
+<p>At this point, the screen returns to it's initial state and the user can make a new configuration.</p>
+<h2 id="game-config-profile">Game config profile</h2>
+<p>A function that allows the user to store multiple joystick configurations in a profile. These profiles are separated by patient and store joystick configurations individually, allowing the user to apply all of them with a single click.</br>
+The objective of this screen is to speed up the process of configuring a joystick for a recurring patient, that practices the same exercise with the same game in multiple sessions.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\configProfile\configProfile1.png" alt="configProfile1" width="75%" height="75%"/>
+</p>
+<p>The image above presents the screen with it's main elements numbered.</br></p>
+<ol>
+<li>Configuration profile
+<ol>
+<li>Stored profiles will appear on this list.</li>
+<li>Profiles are patient exclusive and are not shared between one another.</li>
+<li>Stores the configurations shown on the configuration list (item 2).</li>
+<li>To add a profile, type a name on the text field (item 4) and click on the add profile button (item 5).</li>
+<li>To select a profile, click on it.</li>
+</ol>
+</li>
+<li>Configuration list
+<ol>
+<li>Configurations that have been added to the profile.</li>
+<li>To select one, click on it.</li>
+</ol>
+</li>
+<li>Selected configuration
+<ol>
+<li>The background becomes orange.</li>
+<li>The information that this icons represents is discussed further.</li>
+</ol>
+</li>
+<li>Text field
+<ol>
+<li>Used to name a profile.</li>
+<li>32 character limit.</li>
+<li>Obligatory.</li>
+</ol>
+</li>
+<li>&quot;Create new profile&quot; Button
+<ol>
+<li>Adds an empty profile.</li>
+</ol>
+</li>
+<li>&quot;Remove profile&quot; Button
+<ol>
+<li>Deletes the selected profile and the stored configurations.</li>
+</ol>
+</li>
+<li>&quot;Add new configuration&quot; Button
+<ol>
+<li>Adiciona a última configuração realizada na tela de configurações ao perfil selecionado.</li>
+</ol>
+</li>
+<li>&quot;Delete configuration&quot; Button
+<ol>
+<li>Removes the selected configuration from the profile.</li>
+</ol>
+</li>
+<li>&quot;Apply selected configuration&quot; Button
+<ol>
+<li>Sends the configuration to the joystick.</li>
+<li>This is essentially the same action as configuring the joystick throught the configuration screen.</li>
+</ol>
+</li>
+<li>&quot;Apply all configurations&quot; Button</li>
+<li>Apply all the configurations stored on the profile.</li>
+<li>&quot;Send to configuration screen&quot; Button</li>
+<li>Sends the parameters of the selected configuration to the configuration screen.</li>
+</ol>
+<p>Configurations from the item 2 are presented in the image below.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\configProfile\configProfile2.png" alt="userActionImage1" width="25%" height="25%"/>
+</p>
+<p>From right to left, the information presented are:</p>
+<ol>
+<li>Exercise.
+<ol>
+<li>Describes the action that was associated with the key.</li>
+</ol>
+</li>
+<li>Pressure
+<ol>
+<li>Exercise pressure associated with the key, measured in kPa.</li>
+</ol>
+</li>
+<li>Pressure duration
+<ol>
+<li>Continuous pressure duration, measured in seconds.</li>
+</ol>
+</li>
+<li>Repetition
+<ol>
+<li>This icon representss the repetition parameter state, either on or off.</li>
+</ol>
+</li>
+<li>Selected key
+<ol>
+<li>The key that was associated with this exercise.</li>
+</ol>
+</li>
+</ol>
+<p>Use:</p>
+<ol>
+<li>Configure the joystick on the configuration screen.</li>
+<li>Acess the &quot;Button config profiles&quot; screen.</li>
+<li>Create a new profile.</li>
+<li>Select the created profile.</li>
+<li>Use the button 7 to add the last configuration to the profile.</li>
+<li>Repeat the process to add more configurations.</li>
+</ol>
+<p>Now we have a profile with multiple configurations.</br>
+At any other moment we wish to apply the same configuration to the joystick:</p>
+<ol>
+<li>Select the desired profile.</li>
+<li>Select the desired configuration.</li>
+<li>Use the button 9 to apply the selected configuration.</li>
+<li>Or use the button 10 to apply all the configurations.</li>
+</ol>
+<h2 id="user-actions">User actions</h2>
+<p>Patient and therapist registration.</p>
+<p>Currently, we give special attention atentition to patient registration. <strong>There are two main characteristics.</strong></p>
+<ol>
+<li>It's completely independent from the active therapist.</li>
+<li>It's use to store and show the <a href="#user-statistics">use statistics sessions</a> and <a href="#Game-config-profile">configuration profile</a>.</li>
+</ol>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userActions\userActions1.png" alt="userActionImage1" width="75%" height="75%"/>
+</p>
+<p>The image above represents the user actions screen with it's main elements numbered.</br></p>
+<ol>
+<li>Tab selection
+<ol>
+<li>This button allows the user to change between the management of therapist and patient.</li>
+</ol>
+</li>
+<li>New registration
+<ol>
+<li>Opens a registration dialog.</li>
+<li>After successful registration, patients and therapists will appear on their respective lists.</li>
+</ol>
+</li>
+<li>Default Therapist/Patient
+<ol>
+<li>The tool has default profiles for patient and therapist.</li>
+<li>Generic values that can be used by any user.</li>
+<li>Similar to a &quot;guest&quot; user function present in multiple websites and softwares.</li>
+<li>Use this button to return to the default value.</li>
+</ol>
+</li>
+<li>Registration list
+<ol>
+<li>Registered patients and therapist will appear on their respective lists.</li>
+<li>They are selectable by clicking.</li>
+</ol>
+</li>
+<li>Edit registration
+<ol>
+<li>Information can be altered for each registration individually.</li>
+</ol>
+</li>
+<li>Remove registration
+<ol>
+<li>Delete the selected registration.</li>
+<li>In case of a patient registration, all it's sessions and configuration profiles will be removed.</li>
+</ol>
+</li>
+</ol>
+<p>The following sequence of images demonstrates the step by step of registering a patient. The same process can be used to register a therapist.</br></p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userActions\userActions4.png" alt="userActionsImage2" width="75%" height="75%"/>   
+</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userActions\userActions3.png" alt="userActionsImage3" width="75%" height="75%"/>   
+</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userActions\userActions5.png" alt="userActionsImage4" width="75%" height="75%"/>   
+</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userActions\userActions6.png" alt="userActionsImage5" width="75%" height="75%"/>   
+</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userActions\userActions7.png" alt="userActionsImage6" width="75%" height="75%"/>   
+</p>
+<p>Note that, on the lower half of the tool, it presents the currently selected patient.</p>
+<h2 id="user-statistics">User statistics</h2>
+<p>This screen is used to obtain and monitor joystick use statistics during treatment, allowing the therapist to have a clear vision of the patients progress throught out the treatment.</br></p>
+<p>It features two main tabs, session and summary.</br></p>
+<ol>
+<li>The session tab visually presents information about the current or latest session using graphs. Also has session controls, allowing for the creating and removal of sessions and data exporting.</li>
+<li>The summary tab presents a summary of all recorded sessions for a patient, showing the progress throughout the treatment.</li>
+</ol>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userData\userData1.png" alt="useDataImage1" width="75%" height="75%"/> 
+</p>
+<p>The image above presents the screen with it's main elements numbered.</br></p>
+<ol>
+<li>Tab selector
+<ol>
+<li>These buttons allow the user to swap between the summary and session tabs.</li>
+</ol>
+</li>
+<li>Pressure statistics graph
+<ol>
+<li>Presents statistical information about the pressure values collected in the current session.</li>
+</ol>
+</li>
+<li>Respiratory function graph
+<ol>
+<li>Presents the total number a exercise was done.</li>
+</ol>
+</li>
+<li>Interactive legend
+<ol>
+<li>It's possible to filter the graph by clicking the legend elements.</li>
+</ol>
+</li>
+<li>&quot;Start data collection&quot; button
+<ol>
+<li>Sends a message to the joystick, after receiving it, it will transmit pressure information.</li>
+<li>Blocks all other functions.</li>
+<li>Data can only be obtained using this button.</li>
+</ol>
+</li>
+<li>&quot;Stop data collection&quot; button
+<ol>
+<li>Stops the data collection.</li>
+<li>Unblocks all other functions.</li>
+</ol>
+</li>
+<li>&quot;Export raw data&quot; button
+<ol>
+<li>Data from every graph are exported to multiple CSV files.</li>
+<li>Files are saved on the root tool's root folder, the same folder from the executable.</li>
+<li>Folders are separated by patients.</li>
+</ol>
+</li>
+<li>&quot;Export as image&quot; button
+<ol>
+<li>Two images are generated, on the same folder structure used by the &quot;export raw data&quot; button.</li>
+<li>The images represents the graphs from the session and summary tabs.</li>
+</ol>
+</li>
+<li>&quot;New session&quot; button
+<ol>
+<li>Create a new empty session, using the current date information.</li>
+</ol>
+</li>
+<li>Session selector</li>
+<li>A list presenting all the sessions.</li>
+<li>Sessions are separated by moment of creation, multiple sessions can be created in the same day.</li>
+<li>Naming scheme: Year-month-day hour:minute</li>
+<li>&quot;Delete session&quot; button
+<ol>
+<li>Deletes the current session and all it's data.</li>
+</ol>
+</li>
+</ol>
+<p>Important details</p>
+<ol>
+<li>Graphs are not updated in real time. The user needs to stop collecting data from the joystick.</li>
+</ol>
+<p>The image sequence below presents the various states for this screen.</br></p>
+<p>During the collection of data.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userData\userData2.png" alt="userDataImage2" width="75%" height="75%"/>
+</p>
+<p>Summary tab, with filtered graph.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userData\userData4.png" alt="userDataImage3" width="75%" height="75%"/>
+</p>
+<p>Session tab with filtered graph.</p>
+<p align="center">
+   <img src="file:///d:\PP_Dev_Folder\source_code\jre_source\_internal\manual\imgs\en-us\userData\userData5.png" alt="userDataImage3" width="75%" height="75%"/>
+</p>
+            
+            
+        </body>
+        </html>

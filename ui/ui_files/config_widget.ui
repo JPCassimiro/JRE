@@ -244,7 +244,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QSlider" name="durationSlider">
+                <widget class="duration_slider" name="durationSlider">
                  <property name="minimum">
                   <number>0</number>
                  </property>
@@ -542,6 +542,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>duration_slider</class>
+   <extends>QSlider</extends>
+   <header>duration_slider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <buttongroups>

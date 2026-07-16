@@ -12,8 +12,8 @@ class CalibrationResultModel(QWidget):
         self.ui.setupUi(self)
 
         #hand sliders
-        self.exhaleSlider = CustomSliderModel()
-        self.inhaleSlider = CustomSliderModel()
+        self.exhaleSlider = CustomSliderModel("kPa")
+        self.inhaleSlider = CustomSliderModel("kPa")
         
         self.exhaleContainer = self.ui.exhaleContainer
         self.inhaleContainer = self.ui.inhaleContainer
@@ -38,8 +38,6 @@ class CalibrationResultModel(QWidget):
                 logger.debug(f"Valores de pressão recebidos: ")
                 for i,slider in enumerate(self.slider_array):
                     slider.slider.setValue(value_array[i])
-                    slider.currentLabel.setText(str(value_array[i]/10) + 'kPa')
-                    slider.maxLabel.setText(str(slider.slider.maximum()/10) + 'kPa')
                     logger.debug(f"{value_array[i]/10} KG")
             else:
                 logger.error(f"Valores de pressão não foram recebidos na tela de resultados - value_array: {value_array}")

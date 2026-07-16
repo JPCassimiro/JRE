@@ -12,3 +12,4 @@ dados_de_uso
 _internal/resources/cached_devices
 *.pyc
 test_jre.db
+test_db

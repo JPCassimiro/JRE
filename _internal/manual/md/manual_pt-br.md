@@ -24,7 +24,7 @@ A ferramenta já vem pré-instalada, é apenas necessário descompactar a pasta 
 Recomenda-se a utilização da ferramenta [7Zip](https://www.7-zip.org), porém outras ferramentas podem ser utilizadas sem problemas.</br>
 
 <p align="center">
-   <img src="imgs/install/install1.png" alt="InstallImage1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/install/install1.png" alt="InstallImage1" width="75%" height="75%"/>
 </p>
 
 **Para utilizar a ferramenta:**</br>
@@ -42,7 +42,7 @@ Recomenda-se a utilização da ferramenta [7Zip](https://www.7-zip.org), porém 
 A conexão com o joystick é a primeira tela apresentada no software. Outras funcionalidades cruciais não podem ser utilizadas caso o joystick não tenha sido conectado de forma correta.</br>
 
 <p align="center">
-   <img src="imgs/connection/connection1.png" alt="connectionImage1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/connection/connection1.png" alt="connectionImage1" width="75%" height="75%"/>
 </p>
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
@@ -67,7 +67,7 @@ Seu funcionamento é iniciado após o pressionar a lupa, dispositivos devem ser 
 Após pressionar o botão 4 ou lupa, o software tenta encontrar dispositivos, em caso de sucesso, obtemos a seguinte tela.</br>
 
 <p align="center">
-   <img src="imgs/connection/connection2.png" alt="connectionImage2png" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/connection/connection2.png" alt="connectionImage2png" width="75%" height="75%"/>
 </p>
 
 Mais de um dispositivo pode aparecer na lista.</br>
@@ -75,7 +75,7 @@ Mais de um dispositivo pode aparecer na lista.</br>
 Para dar continuidade ao processo de conexão, de um clique no dispositivo que deseja conectar, a tela vai ficar com está aparência.</br>
 
 <p align="center">
-   <img src="imgs/connection/connection3.png" alt="connectionImage3" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/connection/connection3.png" alt="connectionImage3" width="75%" height="75%"/>
 </p>
 
 O dispositivo selecionado fica com seu fundo em laranja e o botão de emparelhamento pode ser pressionado.</br>
@@ -83,7 +83,7 @@ O dispositivo selecionado fica com seu fundo em laranja e o botão de emparelham
 Após tocar no botão de emparelhamento e aguardar, o software se conecta ao dispositivo, e a tela de conexão apresenta o dispositivo no quadro anteriormente cinza-escuro e agora laranja.</br>
 
 <p align="center">
-   <img src="imgs/connection/connection4.png" alt="connectionImage4" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/connection/connection4.png" alt="connectionImage4" width="75%" height="75%"/>
 </p>
 
 O dispositivo está pronto para uso.</br>
@@ -97,7 +97,7 @@ Seu funcionamento é simples, conta com três botões e instruções de como rea
 A imagem abaixo representa a primeira tela de calibração com os principais elementos numerados.</br>
 
 <p align="center">
-   <img src="imgs/calibration/calibration1.png" alt="calibrationImage1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/calibration/calibration1.png" alt="calibrationImage1" width="75%" height="75%"/>
 </p>
 
 1. Instruções
@@ -113,19 +113,19 @@ A imagem abaixo representa a primeira tela de calibração com os principais ele
 
 Segunda etapa de calibração.</br>
 <p align="center">
-   <img src="imgs/calibration/calibration3.png" alt="calibrationImage2" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/calibration/calibration3.png" alt="calibrationImage2" width="75%" height="75%"/>
 </p>
 
 Tela de resultado de calibração.</br>
 <p align="center">
-   <img src="imgs/calibration/calibration4.png" alt="calibrationImage3" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/calibration/calibration4.png" alt="calibrationImage3" width="75%" height="75%"/>
 </p>
 
 Os resultados são apresentados em kPa. As barras medem o valor em relação ao máximo suportado, 40 kPa.</br>
 
 Tela da ferramenta durante o processo de calibração.</br>
 <p align="center">
-   <img src="imgs/calibration/calibration5.png" alt="calibrationImage4" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/calibration/calibration5.png" alt="calibrationImage4" width="75%" height="75%"/>
 </p>
 
 Como [já mencionado](#notas-gerais-sobre-o-uso), outras funcionalidades são bloqueadas durante a calibração.
@@ -134,7 +134,7 @@ Como [já mencionado](#notas-gerais-sobre-o-uso), outras funcionalidades são bl
 A tela de configuração de botões é utilizada para associar uma tecla do teclado a uma combinação de dedos e outros parâmetros como pressão e tempo de ativação</br>.
 
 <p align="center">
-   <img src="imgs/config/config1.png" alt="configImage1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/config/config1.png" alt="configImage1" width="75%" height="75%"/>
 </p>
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
@@ -165,7 +165,7 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
 
 A imagem abaixo representa o modal de escolha de teclas.
 <p align="center">
-   <img src="imgs/config/config2.png" alt="configImage1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/config/config2.png" alt="configImage1" width="75%" height="75%"/>
 </p>
 
 1. Utilize o teclado para escolher uma tecla.
@@ -181,22 +181,22 @@ A sequência de imagens a seguir apresenta o passo a passo.</br>
 
 Primeiro, atribuímos a pressão utilizando o controle deslizante.
 <p align="center">
-   <img src="imgs/config/config3.PNG" alt="configImage2" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/config/config3.PNG" alt="configImage2" width="75%" height="75%"/>
 </p>
 
 Depois, atribuímos a tecla desejada.
 <p align="center">
-   <img src="imgs/config/config4.png" alt="configImage4" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/config/config4.png" alt="configImage4" width="75%" height="75%"/>
 </p>
 
 Por fim, atribuímos os parâmetros de repetição e tempo.
 <p align="center">
-   <img src="imgs/config/config5.png" alt="configImage5" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/config/config5.png" alt="configImage5" width="75%" height="75%"/>
 </p>
 
 Agora o joystick está configurado.
 <p align="center">
-   <img src="imgs/config/config6.png" alt="configImage6" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/config/config6.png" alt="configImage6" width="75%" height="75%"/>
 </p>
 
 Nesse ponto, a tela retorna ao estado inicial e é possível configurar outras combinações de dedos.
@@ -206,7 +206,7 @@ Registro de perfis de configuração. Um perfil de configuração é um conjunto
 Esta funcionalidade tem como objetivo acelerar o processo de configuração do joystick para pacientes recorrentes, que realizam o mesmo exercício com o mesmo jogo ou configurações em diversas seções.
 
 <p align="center">
-   <img src="imgs/configProfile/configProfile1.png" alt="configProfile1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/configProfile/configProfile1.png" alt="configProfile1" width="75%" height="75%"/>
 </p>
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
@@ -246,7 +246,7 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
 O item de configuração é apresentado na imagem abaixo.</br>
 
 <p align="center">
-   <img src="imgs/configProfile/configProfile2.png" alt="userActionImage1" width="25%" height="25%"/>
+   <img src="../imgs/pt-br/configProfile/configProfile2.png" alt="userActionImage1" width="25%" height="25%"/>
 </p>
 
 As informações apresentadas, da direita para a esquerda, são:
@@ -287,7 +287,7 @@ Atualmente, da-se atenção especial ao cadastro de pacientes. **Duas caracterí
 2. É utilizado para determinar as sessões apresentadas na tela de [estatisiticas de usuário](#estatisiticas-de-usuário).
 
 <p align="center">
-   <img src="imgs/userActions/userActions1.png" alt="userActionImage1" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/userActions/userActions1.png" alt="userActionImage1" width="75%" height="75%"/>
 </p>
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
@@ -316,19 +316,19 @@ A imagem acima apresenta a tela com os principais elementos numerados.</br>
 A sequência de imagens a seguir apresenta o passo a passo de cadastro de um paciente, o mesmo processo pode ser utilizado para terapeutas.</br>
 
 <p align="center">
-   <img src="imgs/userActions/userActions4.png" alt="userActionsImage2" width="75%" height="75%"/>   
+   <img src="../imgs/pt-br/userActions/userActions4.png" alt="userActionsImage2" width="75%" height="75%"/>   
 </p>
 <p align="center">
-   <img src="imgs/userActions/userActions3.png" alt="userActionsImage3" width="75%" height="75%"/>   
+   <img src="../imgs/pt-br/userActions/userActions3.png" alt="userActionsImage3" width="75%" height="75%"/>   
 </p>
 <p align="center">
-   <img src="imgs/userActions/userActions5.png" alt="userActionsImage4" width="75%" height="75%"/>   
+   <img src="../imgs/pt-br/userActions/userActions5.png" alt="userActionsImage4" width="75%" height="75%"/>   
 </p>
 <p align="center">
-   <img src="imgs/userActions/userActions6.png" alt="userActionsImage5" width="75%" height="75%"/>   
+   <img src="../imgs/pt-br/userActions/userActions6.png" alt="userActionsImage5" width="75%" height="75%"/>   
 </p>
 <p align="center">
-   <img src="imgs/userActions/userActions7.png" alt="userActionsImage6" width="75%" height="75%"/>   
+   <img src="../imgs/pt-br/userActions/userActions7.png" alt="userActionsImage6" width="75%" height="75%"/>   
 </p>
 
 Observe a parte inferior da ferramenta, ela apresenta o paciente atualmente selecionado.
@@ -341,7 +341,7 @@ Ela conta com duas abas principais, sessão e resumo.</br>
 2. Resumo, que apresenta um resumo de todas as sessões realizadas pelo paciente, demonstrando seu progresso durante o tratamento.
 
 <p align="center">
-   <img src="imgs/userData/userData1.png" alt="useDataImage1" width="75%" height="75%"/> 
+   <img src="../imgs/pt-br/userData/userData1.png" alt="useDataImage1" width="75%" height="75%"/> 
 </p>
 
 A imagem acima apresenta a tela com os principais elementos numerados.</br>
@@ -385,20 +385,15 @@ A sequência de imagens apresenta os vários estados da tela.</br>
 
 Durante a coleta de dados.
 <p align="center">
-   <img src="imgs/userData/userData2.png" alt="userDataImage2" width="75%" height="75%"/>
-</p>
-
-Aba de resumo.
-<p align="center">
-   <img src="imgs/userData/userData3.png" alt="userDataImage3" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/userData/userData2.png" alt="userDataImage2" width="75%" height="75%"/>
 </p>
 
 Aba de resumo com gráfico filtrado.
 <p align="center">
-   <img src="imgs/userData/userData4.png" alt="userDataImage3" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/userData/userData4.png" alt="userDataImage3" width="75%" height="75%"/>
 </p>
 
 Aba de sessão com gráfico filtrado.
 <p align="center">
-   <img src="imgs/userData/userData5.png" alt="userDataImage3" width="75%" height="75%"/>
+   <img src="../imgs/pt-br/userData/userData5.png" alt="userDataImage3" width="75%" height="75%"/>
 </p>

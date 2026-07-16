@@ -51,8 +51,8 @@ class ConfigWidgetModel(SharedConfigWidgetModel):
         self.current_user = None
         self.selected_button = None
         
-        self.exhaleSlider = CustomSliderModel()
-        self.inhaleSlider = CustomSliderModel()
+        self.exhaleSlider = CustomSliderModel("kPa")
+        self.inhaleSlider = CustomSliderModel("kPa")
         
         self.slider_array = [
             self.exhaleSlider,
@@ -166,7 +166,6 @@ class ConfigWidgetModel(SharedConfigWidgetModel):
         try:
             for i,slider in enumerate(self.slider_array):
                 slider.slider.setMaximum(arry[i])
-                slider.maxLabel.setText(str(arry[i]/10) + 'kPa')
         except Exception as e:
             logger.error(f"ConfigWidgetModel set_slider_max_value error: {e}")
     
@@ -241,7 +240,6 @@ class ConfigWidgetModel(SharedConfigWidgetModel):
         try:
             self.p_value = (self.sender().property("index")-1, self.sender().value())
             self.latest_change = self.sender().property("index")
-            self.sender().parent().parent().parent().currentLabel.setText(str(self.sender().value()/10) + 'kPa')
         except Exception as e:
             logger.error(f"ConfigWidgetModel pressure_slider_value_change error: {e}")
 

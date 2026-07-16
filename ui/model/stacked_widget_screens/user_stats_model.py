@@ -219,8 +219,8 @@ class UserStatsModel(SharedUserStatsModel):
             self.plot_item_avg_line.showGrid(y = True,x = True)
 
             #create lines
-            self.exhale_line = self.plot_item_avg_line.plot(self.exhale_info_array[0],self.exhale_info_array[1],pen ='r')
-            self.inhale_line = self.plot_item_avg_line.plot(self.inhale_info_array[0],self.inhale_info_array[1],pen ='g')
+            self.exhale_line = self.plot_item_avg_line.plot(self.exhale_info_array[0],self.exhale_info_array[1],pen ="#63f859")
+            self.inhale_line = self.plot_item_avg_line.plot(self.inhale_info_array[0],self.inhale_info_array[1],pen ="#59b3f8")
                 
             #line chart legend
             self.avg_line_legend = pg.LegendItem(colCount = 2)

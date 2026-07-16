@@ -62,15 +62,35 @@
       <item row="0" column="0">
        <widget class="QWidget" name="slider" native="true">
         <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>2</number>
+         </property>
+         <property name="rightMargin">
+          <number>2</number>
+         </property>
+         <property name="bottomMargin">
+          <number>2</number>
+         </property>
          <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
           <widget class="QLabel" name="maxLabel">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
           </widget>
          </item>
          <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-          <widget class="Slider" name="verticalSlider">
+          <widget class="pressure_slider" name="verticalSlider">
            <property name="maximum">
             <number>400</number>
            </property>
@@ -84,6 +104,11 @@
          </item>
          <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
           <widget class="QLabel" name="currentLabel">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
@@ -99,9 +124,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Slider</class>
+   <class>pressure_slider</class>
    <extends>QSlider</extends>
-   <header>slider.h</header>
+   <header>pressure_slider.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

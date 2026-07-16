@@ -34,9 +34,15 @@ class CalibrationWidgetModel(SharedCalibrationModel):
     
     def get_str_array(self):
         return [
-                QCoreApplication.translate("InstructionText", text)
-                for text in self.s_list
-                ]
+            QCoreApplication.translate(
+                "InstructionText",
+                "Sopre com toda força"
+            ),
+            QCoreApplication.translate(
+                "InstructionText",
+                "Inale com toda força"
+            )
+        ]
 
     def get_result_model(self):
         return CalibrationResultModel()

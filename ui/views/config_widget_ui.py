@@ -19,6 +19,8 @@ from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLay
     QLabel, QPushButton, QRadioButton, QSizePolicy,
     QSlider, QToolButton, QVBoxLayout, QWidget)
 
+from shared_ui_modules.ui.modified_widgets.duration_slider import duration_slider
+
 class Ui_configForm(object):
     def setupUi(self, configForm):
         if not configForm.objectName():
@@ -134,7 +136,7 @@ class Ui_configForm(object):
 
         self.horizontalLayout_2.addWidget(self.zeroLabel)
 
-        self.durationSlider = QSlider(self.durationSliderContainer)
+        self.durationSlider = duration_slider(self.durationSliderContainer)
         self.durationSlider.setObjectName(u"durationSlider")
         self.durationSlider.setMinimum(0)
         self.durationSlider.setMaximum(9)
