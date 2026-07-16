@@ -11,4 +11,4 @@ class AppConfigDialogModel(SharedAppConfigModel):
 
     #!change this on every new release
     def get_version_name(self):
-        return "Stable V1.0.2"
+        return "Stable V1.0.3"
