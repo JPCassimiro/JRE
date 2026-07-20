@@ -2,6 +2,8 @@
 
 Este é o repositório para uma ferramenta com o objetivo de apoiar um joystick baseado em pressão de sopro desenvolvido por pesquisadores da UTFPR - CP, permitindo que o joystick seja configurado e que estatiscas de uso do mesmo sejam observadas. </br>
 Este projeto é basedo no [JHMR](https://github.com/JPCassimiro/JHMR) e serve um propósito similar.</br>
+O módulo personalizado [shared_ui_modules](https://github.com/JPCassimiro/shared_ui_modules) é utilizado e compartilhado com o projeto JHMR.</br>
+Está ferramenta tem um registro no INPI com número BR 51 2026 003004 8.</br
 
 - [JRE - Joystick for Respiratory Exercises](#jre---joystick-for-respiratory-exercises)
   - [Techstack](#techstack)
